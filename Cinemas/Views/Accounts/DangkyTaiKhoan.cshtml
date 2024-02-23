@@ -1,0 +1,52 @@
+﻿@model Cinemas.ModelViews.RegisterViewModel
+
+@{
+    ViewData["Title"] = "DangkyTaiKhoan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/assetsLayout/styles/styleLogSign.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/assetsLayout/styles/Trangchu.css" asp-append-version="true" />
+}
+<div class="container">
+    <div class="main_logsign">
+        <form class="form1" asp-action="DangkyTaiKhoan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-header">
+                <a href="/dang-nhap.html"><h3 class="heading f_log-in clblhv" style="color: #000">Đăng nhập</h3></a>
+
+                <h3 class="heading f_register">Đăng ký</h3>
+
+            </div>
+            <div class="spacer"></div>
+
+            <div class="row gx-5 register">
+                <div class="form-group">
+                    <label asp-for="FullName" class="form-label"><span class="register-start">*</span>Họ và tên</label>
+                    <input asp-for="FullName" type="text" placeholder="Họ tên" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label"><span class="register-start">*</span>Nhập Email</label>
+                    <input asp-for="Email" type="email" placeholder="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="form-label"><span class="register-start">*</span>Số điện thoại</label>
+                    <input asp-for="Phone" type="tel" placeholder="Số điện thoại" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group rgt__input">
+                    <label asp-for="Password" class="form-label"><span class="register-start">*</span>Mật khẩu</label>
+                    <input asp-for="Password" type="password" placeholder="Nhập mật khẩu" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="form-label"><span class="register-start">*</span>Nhập lại mật khẩu</label>
+                    <input asp-for="ConfirmPassword" type="password" placeholder="Xác nhận lại mật khẩu" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <button type="submit" class="form-submit">Đăng ký</button>
+        </form>
+    </div>
+</div>

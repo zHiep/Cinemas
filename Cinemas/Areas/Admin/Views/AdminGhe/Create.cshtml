@@ -1,0 +1,39 @@
+﻿@model Cinemas.Models.Ghe
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-action="Admin" asp-controller="Home" asp-area="Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý ghế</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-action="Index" asp-controller="AdminGhe">Danh sách ghế</a>
+            <span class="breadcrumb-item active">Thêm ghế</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create">
+            <div class="form-group">
+                <div class="form-group row">
+                    <label for="RoleName" class="col-sm-2 col-form-label"><h6>Tên ghế</h6></label>
+                    <div class="col-sm-4">
+                        <input asp-for="TenGhe" type="text" class="form-control">
+                        <span asp-validation-for="TenGhe" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" style="margin-right:25px;">Tạo mới</button>
+                        <a asp-controller="AdminGhe" asp-area="Admin" asp-action="Index" class="btn btn btn-danger">Hủy</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

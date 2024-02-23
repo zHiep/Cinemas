@@ -1,0 +1,284 @@
+﻿@model IEnumerable<Cinemas.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Lịch sử giao dịch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/assetslayout/styles/Trangchu.css" rel="stylesheet" />
+    <link href="~/assetslayout/styles/LichSuGD.css" rel="stylesheet" />
+    <!-- page css -->
+    <link href="~/assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+    decimal tongtien = 0;
+}
+<h1>@ViewBag.ValTimeStart</h1>
+<h1>@ViewBag.ValTimeEnd</h1>
+<!-- TRANSACTION HISTORY -->
+<div class="grid" style="background-color: #F8F8F8;">
+    <div id="members">
+        <div class="members_content">
+            <a href="/thong-tin-tai-khoan.html" class="members_content--text">thông tin tài khoản</a>
+            <a href="" class="members_content--text">lịch sử giao dịch</a>
+        </div>
+         <div class="form-group" style="width:400px">
+            <label>Lọc theo ngày đặt</label>
+            <div class="d-flex align-items-center">
+                <input type="date" class="form-control" id="timeStart" placeholder="From">
+                <span class="p-h-10">to</span>
+                <input type="date" class="form-control" id="timeEnd" placeholder="To">
+                <button id="btnLoc" class="btn btn-primary m-r-5">Lọc</button>
+                <button id="chiphitang" class="btn btn-primary m-r-5">Tăng Dần</button>
+                <button id="chiphigiam" class="btn btn-primary m-r-5">Giảm Dần</button>
+                <button id="ngaytang" class="btn btn-primary m-r-5">Tăng Ngày</button>
+                <button id="ngaygiam" class="btn btn-primary m-r-5">Giảm Ngày</button> 
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        tongtien += item.TongTien;
+                    }
+                }
+                <h4>
+                    Tổng tiền : @((tongtien/1000).ToString("#.##0"))
+                </h4>
+            </div>
+            <div class="dataTables_filter"><label>Search:<input type="search" id="searchIp" class="form-control form-control-sm" placeholder="" aria-controls="data-table"></label></div>
+        </div> -->
+        <div class="transaction_check">
+            <div class="table-responsive">
+                <table id="data-table" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#Mã hóa đơn</th>
+                            <th scope="col">Tên phim</th>
+                            <th scope="col">Suất chiếu</th>
+                            <th scope="col">Ngày chiếu</th>
+                            <th scope="col">Ngày đặt</th>
+                            <th scope="col">Chi phí</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td scope="row">@item.IdhoaDon</td>
+                                    <td>@item.IdlichChieuNavigation.IdphimNavigation.TenPhim</td>
+                                    <td>@item.IdlichChieuNavigation.IdgioChieuNavigation.GioChieu1</td>
+                                    <td>@item.IdlichChieuNavigation.NgayChieu.ToShortDateString()</td>
+                                    <td class="date">@item.NgayMuaVe.ToShortDateString()</td>
+                                    <td class="cost">@((item.TongTien/1000).ToString("#.##0"))</td>
+                                    <td><button type="button" data-toggle="modal" data-target="#hoadon-@item.IdhoaDon" class="btn btn-success">Chi tiết</button></td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            //Modal chi tiết
+            <div class="modal fade" id="hoadon-@item.IdhoaDon">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="hd-@item.IdhoaDon">Panda Cinemas</h2>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <i class="anticon anticon-close"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="body_top">
+                                <ul class="info-Client">
+                                    <li class="modal_nameClient">@item.IdkhNavigation.TenKh</li>
+                                    <li class="modal_phoneClient">@item.IdkhNavigation.Sdt</li>
+                                    <li class="modal_emailClient">@item.IdkhNavigation.Email</li>
+                                </ul>
+                                <ul class="info-bill">
+                                    <li>
+                                        Mã hóa đơn:
+                                        <span class="modal_bill">#@item.IdhoaDon</span>
+                                    </li>
+                                    <li>
+                                        Ngày đặt:
+                                        <span class="modal_daybuy">@item.NgayMuaVe</span>
+                                    </li>
+                                    <li>
+                                        Ngày chiếu:
+                                        <span class="modal_daystart">@item.IdlichChieuNavigation.NgayChieu.ToShortDateString()</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Tên phim</th>
+                                            <th scope="col">Suất chiếu</th>
+                                            <th scope="col">Ghế</th>
+                                            <th scope="col">Chi phí</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">@item.IdlichChieuNavigation.IdphimNavigation.TenPhim</th>
+                                            <td>@item.IdlichChieuNavigation.IdgioChieuNavigation.GioChieu1</td>
+                                            <td>@item.TenGhe</td>
+                                            <td>@((item.TongTien/1000).ToString("#.##0")) VNĐ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="modal_line"></p>
+                            <div class="body_footer">
+                                <div class="body_footer--left">
+                                    <p class="body_footer--info">thông tin thanh toán</p>
+                                    <span lass="body_footer--desc">Hỗ trợ đặt vé xem phim trực tuyến</span>
+                                    <br>
+                                    <span lass="body_footer--hotline">Hotline: 0971130777</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Xác nhận</button>
+                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+
+
+</div>
+
+@section Scripts {
+    <!-- page js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script src="~/assets/vendors/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ngaygiam').click(function (e) {
+                e.preventDefault();
+                var table = $('#tbHoaDon');
+                var rows = table.find('tr').toArray();
+
+                rows.sort(function (a, b) {
+                    var costA = moment($(a).find('td.date').text(), 'DD/MM/YYYY');
+                    var costB = moment($(b).find('td.date').text(), 'DD/MM/YYYY');
+                    return costB - costA;
+                });
+                table.empty();
+                $.each(rows, function (index, row) {
+                    table.append(row);
+                });
+            });
+            $('#ngaytang').click(function (e) {
+                e.preventDefault();
+                var table = $('#tbHoaDon');
+                var rows = table.find('tr').toArray();
+
+                rows.sort(function (a, b) {
+                    var costA = moment($(a).find('td.date').text(), 'DD/MM/YYYY');
+                    var costB = moment($(b).find('td.date').text(), 'DD/MM/YYYY');
+                    return costA - costB;
+                });
+
+                table.empty();
+                $.each(rows, function (index, row) {
+                    table.append(row);
+                });
+            });
+            
+            $('#btnLoc').click(function (e) {
+                e.preventDefault();
+                var timeStart = jQuery("#timeStart").val();
+                var timeEnd = jQuery("#timeEnd").val();
+                var start = timeStart.split('-').reverse().join('-');
+                var end = timeEnd.split('-').reverse().join('-');
+                $.ajax({
+                    url: '/HoaDon/Filter',
+                    datatype: "json",
+                    type: 'GET',
+                    data: {
+                        strtimestart: start,
+                        strtimeend: end
+                    },
+                    success: function (results) {
+                        window.location.href = results.redirectUrl;
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+
+                });
+            });
+            var check = null;
+            if (check != @ViewBag.ValTimeStart) {
+                var x = `@ViewBag.ValTimeStart`;
+                var start1 = x.split('-').reverse().join('-');
+                $('#timeStart').val(start1);
+            }
+            if (check != @ViewBag.ValTimeEnd) {
+                var y = `@ViewBag.ValTimeEnd`;
+                var end1 = y.split('-').reverse().join('-');
+                $('#timeEnd').val(end1);
+            }
+
+            $('#chiphitang').click(function (e) {
+                e.preventDefault();
+                var table = $('#tbHoaDon');
+                var rows = table.find('tr').toArray();
+
+                rows.sort(function (a, b) {
+                    var costA = parseFloat($(a).find('td.cost').text());
+                    var costB = parseFloat($(b).find('td.cost').text());
+                    return costA - costB;
+                });
+
+                table.empty();
+                $.each(rows, function (index, row) {
+                    table.append(row);
+                });
+            });
+            $('#chiphigiam').click(function (e) {
+                e.preventDefault();
+                var table = $('#tbHoaDon'); // Thay #myTable bằng id của bảng bạn muốn sắp xếp
+                var rows = table.find('tr').toArray();
+
+                rows.sort(function (a, b) {
+                    var costA = parseFloat($(a).find('td.cost').text());
+                    var costB = parseFloat($(b).find('td.cost').text());
+                    return costB - costA;
+                });
+
+                table.empty();
+                $.each(rows, function (index, row) {
+                    table.append(row);
+                });
+            });
+
+            $('#searchIp').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#tbHoaDon tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+        });
+        $('#data-table').DataTable();
+
+    </script>
+}
+

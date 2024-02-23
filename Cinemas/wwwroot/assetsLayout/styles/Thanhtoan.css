@@ -1,0 +1,733 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'Source Sans 3', sans-serif; 
+
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;;
+}
+
+.grid {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.main {
+    /* display: flex; */   
+     font-family: 'Source Sans 3', sans-serif; 
+
+ 
+}
+
+/* Header */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    display: block;
+    border-bottom: 1px solid #ccc;
+}
+
+.header_content {
+    background: black;
+} 
+
+.form {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    color: white;
+
+}
+.language {
+    height: 24px;
+}
+.language:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+.vn_flag {
+    margin-left:16px ;
+
+}
+/* .form_register--login {
+    display: flex;
+    
+    padding-right: 24px;
+}
+
+.login {
+    padding-right: 9px;
+}
+
+.line {
+    border: solid 1px white;
+}
+
+.register {
+    padding-left: 9px;
+} */
+
+
+
+/* .login:hover {
+    cursor: pointer;
+    opacity: 0.9;
+    text-decoration: underline;
+}
+
+.register:hover {
+    cursor: pointer;
+    opacity: 0.9;
+    text-decoration: underline;
+} */
+
+
+
+/* USER */
+
+.user_inf4 {
+    background: #fff;
+    color: #000;  
+}
+.user_inf4 li {
+    border: 0.1px solid #ccc ;
+    padding: 8px;
+}
+.user_inf4 li:hover{
+    opacity: 0.5;
+    cursor: pointer; 
+}
+.user_inf4 a:hover {
+    color: #03599d;
+}
+.user_inf4 { 
+    position: relative;
+    display: none;  
+}
+.user_inf4::before {
+    content: ""; 
+    position: absolute;
+    right: calc(40%);
+    top: -17px;
+    border-width: 14px 20px;
+    border-style: solid;
+    border-color: transparent transparent  #fff transparent;
+} 
+
+.user_name:hover {
+    cursor: pointer;
+    opacity: 0.9;
+    text-decoration: underline
+}
+.user_name i{
+ font-size: 12px;
+}
+.user:hover .user_inf4{
+    position: absolute;
+    display: block; 
+}
+.user_list li i{
+    margin-right: 8px;
+}
+
+/* Navigation */
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.options {
+    position: relative;
+    line-height: 30px;
+}
+
+.subnav_options {
+    display: none;
+    background-color: white;
+}
+
+.options_city {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.options_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #f8f6f6;
+    border-radius: 20px;
+}
+
+.options_content i {
+    padding-right: 15px;
+    padding-top: 5px;
+}
+
+.options_text {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.options_city:hover {
+    cursor: pointer;
+}
+
+.options_city:hover .subnav_options {
+    display: block;
+    position: absolute;
+}
+
+.subnav_options {
+    width: 200px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    line-height: 30px;
+    padding-left: 15px;
+    margin-top: 3px;
+    margin-left: 10px;
+}
+
+.nav_contents {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    text-transform: uppercase;
+}
+
+.nav_contents li a {
+    padding: 10px;
+    font-size: 22px;
+    margin-left: 20px;
+}
+
+.nav_contents li:hover a {
+    color: #5b9bd1;
+}
+
+
+/* Slide Show */
+.slider-container{
+    margin-top: 110px;
+    height: 470px;
+    width: 100%;
+    position: relative;
+    overflow: hidden; 
+    text-align: center;
+  }
+  
+  .menu {
+    position: absolute;
+    left: 0;
+    z-index: 900;
+    width: 100%;
+    bottom: 0;
+  }
+  
+  .menu label {
+    cursor: pointer;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: #ccc;
+    border-radius: 50px;
+    margin: 0 .2em 1em;
+    transition: all .3s ease;
+    &:hover {
+      background: red;
+    }
+  }
+  
+  .slide {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 10;
+    padding: 8em 1em 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    transition: left 0s .75s;
+  }
+  
+  [id^="slide"]:checked + .slide {
+    left: 0;
+    z-index: 100;
+    transition: left .65s ease-out;
+  }
+  
+  .slide-1 {
+    background-image: url("https://files.betacorp.vn/files/ecm/2023/10/05/don-thang-quy-di-combo-ma-mi-1702-x-621-shrink-113717-051023-74.jpg");
+  }
+  .slide-2 {
+    background-image: url("https://files.betacorp.vn/files/ecm/2023/04/21/mer-resize-1702-x-621-140337-210423-86.png");
+  }
+  .slide-3 {
+    background-image: url("https://files.betacorp.vn/files/ecm/2023/09/26/vnpaybeta-1702-x-621-145207-260923-41.png");
+  }
+
+
+/* Body */
+#body {
+    margin: 150px 0 50px 0;
+    /* width: 100%;  */
+    /* gap: 20px; */
+
+} 
+.book_ticket {
+    width: 100%;
+    margin-top: 110px;
+    display: flex;
+    padding-top: 40px;
+    gap: 30px;
+}
+/* Payment */
+.payment {
+    width: 65%;
+}
+.payment_content--title h3{
+    margin-top: 15px; 
+    color: #5b9bd1;
+    font-size: 24px;
+    margin-bottom: 20px;
+
+}
+.pay_content--regulations{
+    background: #e5a557;
+    text-align: center;
+    padding: 10px 0;
+    color: red;
+    font-weight: lighter;
+}
+
+.payment_page {
+    display: flex; 
+    margin: 30px 0;
+    color: #494c62;
+    /* font-weight: bold; */
+}
+.payment_page img {
+    width: 30px;
+    height: 30px; 
+    opacity: 0.7;
+    
+}
+.payment_page--title {
+    text-transform: uppercase;
+    line-height:2rem;
+    margin-left: 8px;
+    color: #494c62;
+    font-weight: 600; 
+
+}
+.payment_inf {
+    width: 90%; 
+    display: flex;
+    /* text-align: center; */
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.payment_inf--text {
+    font-size: 16px;
+    color: #494c62;
+}
+.payment_chair { 
+    display: flex; 
+    width: 100%; 
+}
+.payment_chair--text {
+    width: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #494c62;
+}
+.payment_chair--qlt {
+    width: 30%;  
+    align-self: center; 
+    text-align: right;
+}
+.payment_chair--money {
+    width: 20%;  
+    align-self: center; 
+    text-align: right;
+
+}
+.payment_bill{
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+.payment_bill h3 {
+    text-transform: uppercase;
+    color: #36363f;
+}
+.bank {
+    align-self: center; 
+    text-align: right;
+}
+
+.payment_card--option {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid  #ccc;
+}
+.payment_card { 
+}
+.payment_card--bank {
+    display: flex;   
+    width: 100%;
+    gap: 20px;
+    margin-top: 20px;
+}
+.col-4 {     
+    width: 25%;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.col-4 span { 
+    font-size: 13px;
+    
+}
+.col-4 label { 
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    
+}
+.card {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    margin: 0 6px;
+}
+ 
+.warning { 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    margin-top: 40px;
+    background-color: #fff;
+    width: 100%;
+    height: 80px;
+    color: #494c62;
+    font-style: italic;
+}
+.warning_text {
+
+}
+
+/* .ticket_infor*/
+.ticket_infor {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white;
+    margin-bottom: 50px;
+}
+
+.ticket_contain {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.ticket_contain--text,
+.ticket_contain--type {
+    font-size: 20px;
+    margin-left: 10px;
+    color: #03599E;
+    margin-top: 10px;
+}
+
+.ticket_contain--type {
+    font-size: 16px;
+    color: black;
+    margin-top: 10px;
+}
+
+.ticket_discription {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.ticket_nameTag p {
+    margin-bottom: 20px;
+}
+
+.ticket_nameTag p i {
+    margin-right: 7px;
+    color: #494c62;
+}
+
+
+.ticket_discription--text p {
+    margin-bottom: 20px;
+}
+.btn {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+.ticket_buy--btn {
+    align-self: center;
+    background-image: linear-gradient(to right, #0a64a7 0%, #258dcf 51%, #2d9ad8 100%);
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    height: 35px; 
+    text-transform: uppercase;
+    font-weight: lighter;
+    border-radius: 4px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    cursor: pointer; 
+}
+ 
+.ticket_buy--btn:hover { 
+    opacity: 0.9;
+}
+ 
+
+
+ 
+  /* Footer */
+
+
+#footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    margin-top: 40px;
+}
+
+.footer_content {
+   
+}
+.panel_image { 
+}
+
+.footer_content--info {
+    width: 150px;
+}
+
+.footer_content--info,
+.footer_content--cinema,
+.footer_content--connect {
+    margin-right: 30px;
+}
+
+.footer_info--img {
+    margin-bottom: 10px;
+}
+
+.footer_info--list li {
+    margin-bottom: 8px;
+}
+
+.footer_info--list li a {
+    margin-left: 8px;
+}
+
+.footer_info--list li:hover a {
+    color: #5b9bd1;
+    text-decoration: underline;
+}
+
+.footer_cinema--text,
+.footer_connect--text,
+.footer_contact--text {
+    font-size: 20px;
+    padding-bottom: 7px;
+    margin: 0 0 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(to right, #39adf0 0%, #075fa3 100%);
+    border-image-slice: 1;
+   
+}
+
+.footer_content--cinema {
+    width: 390px;
+}
+
+.footer_cinema--list li {
+    margin-bottom: 8px;
+}
+
+.footer_cinema--list li a {
+    margin-left: 8px;
+}
+
+.footer_cinema--list li:hover a {
+    color: #5b9bd1;
+    text-decoration: underline;
+}
+
+.footer_content--connect {
+    width: 180px;
+}
+
+.footer_connect--img  img {
+    margin-top: 10px;
+    width: 180px;
+}
+
+.footer_connect--text {
+   
+}
+
+.footer_connect--icon {
+    display: flex;
+    justify-content: center;
+}
+
+.footer_connect--icon i {
+    font-size: 26px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.footer_content--contact {
+    width: 200px;
+}
+
+.footer_contact--list li {
+    margin-bottom: 16px;
+}
+
+/* Modal 2 */
+.modal_two{
+	position: fixed;
+	top: -50px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 999999999 ;
+    display: flex;
+    justify-content: center;
+	align-items: center;	
+	display: none;
+} 
+
+.open{
+	display: flex;
+
+}
+ 
+.modal-container--2 {
+    margin-top: 20px;
+	width: 600px;
+	max-width: calc(100% - 40px);
+	background-color: #fff;
+	position: relative;
+	animation: modaFadeIn ease 0.5s;
+}
+.click_close { 
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    font-size: 18px;
+    color: black; 
+    right: 0; 
+    padding: 6px; 
+    text-align: center;
+}
+.click_close {
+    cursor: pointer;
+}
+.modal_header { 
+    width: 100%;
+    padding: 15px;
+    cursor: grab;
+} 
+.modal_header h3 {
+    text-transform: uppercase;
+    font-size: 23px;
+    font-weight: 300;
+} 
+.modal_img {
+    width: 76%;
+    margin: auto;
+}
+.modal_img--happy {
+    width: 100px; 
+    height: 100px; 
+}
+ 
+.modal-body{
+    padding: 15px;
+    cursor: grab;
+}
+ 
+.modal_content h1 {
+    text-align: center;
+    color: #03599d;
+    font-weight: lighter;
+} 
+.modal_footer{
+    margin: 20px 0 40px 0;
+    text-align: center;
+
+}
+.modal_footer--agree { 
+    padding: 8px 30px;
+    background: #03599d;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 6px;
+}
+.modal_footer--agree:hover{
+    opacity: 0.8;
+}
+ /* Nút trở lên đầu */
+.scrollTop {
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+}
+
+.scrollTop i {
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 14px;
+    border-radius: 50%;
+    background: #075fa3;
+    color: white;
+    cursor: pointer;
+}

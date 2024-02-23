@@ -1,0 +1,237 @@
+﻿@model IEnumerable<Cinemas.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/assetsLayout/styles/Thanhtoan.css" />
+
+}
+
+<div class="grid" style="background-color: #F8F8F8;">
+    <div class="book_ticket">
+        <div class="payment">
+            <div class="payment_content">
+                <div class="payment_content--title">
+                    <h3>
+                        <span>Trang Chủ</span> > <span>Đặt vé</span> > <span>Kumanthong: Quỷ Linh Nhi</span>
+                    </h3>
+                </div>
+                <div class="pay_content--regulations">
+                    <span>
+                        Theo quy định của cục điện ảnh, phim này không dành
+                        cho khán giả dưới 16  tuổi.
+                    </span>
+                </div>
+            </div>
+            <div class="payment_form">
+                <div class="payment_page">
+                    <img src="/img/user.png" alt="user">
+                    <div class="payment_page--title">
+                        <span>
+                            Thông tin thanh toán
+                        </span>
+                    </div>
+                </div>
+                <div class="payment_inf">
+                    <div>
+                        <div class="payment_inf--text">Họ tên:</div>
+                        <div class="">Hoàng Trung Phong</div>
+                    </div>
+                    <div>
+                        <div class="payment_inf--text">Số điện thoại :</div>
+                        <div class="">0886103494</div>
+                    </div>
+                    <div>
+                        <div class="payment_inf--text">Email</div>
+                        <div class="">phongtl12349@gmail.com</div>
+                    </div>
+                </div>
+                <div class="payment_chair">
+                    <div class="payment_chair--text">
+                        Ghế Thường
+                    </div>
+                    <div class="payment_chair--qlt">
+                        2 x 40000
+                    </div>
+                    <div class="payment_chair--money">
+                        <span style="margin-right: 4px;">=</span>80000<span style="margin-left: 4px;">VND</span>
+                    </div>
+                </div>
+                <hr style="margin-top: 15px; color: #cecece;">
+                <div class="payment_bill">
+                    <h3>Tổng tiền thanh toán</h3>
+                    <h3 class="payment_bill--money bank" style="width: 20%; color: red;">80.000<span style="margin-left: 4px;">VND</span></h3>
+                </div>
+                <hr style="margin-top: 15px; color: #cecece;">
+                <div class="payment_page">
+                    <img src="/img/ic-payment.png" alt="user" style="width: 56px;">
+                    <div class="payment_page--title">
+                        <span>
+                            Phương thức Thanh toán
+                        </span>
+                    </div>
+                </div>
+                <div class="payment_card">
+                    <div class="payment_card--option">
+                        Chọn thẻ thanh toán
+                    </div>
+                    <div class="payment_card--bank">
+                        <div class="col-4">
+                            <input id="card1" type="radio" name="phong" value="vietnam" checked>
+                            <label for="card1">
+                                <img class="card" src="/img/ic-card-vn.png" alt="">
+                                <span>Thẻ nội địa</span>
+                                </input>
+                        </div>
+                        <div class="col-4">
+                            <input style="font-size: 50px;" id="card2" type="radio" name="phong" value="nuocngoai">
+                            <label for="card2">
+                                <img class="card" src="/img/ic-card-gb.png" alt="">
+                                <span>Thẻ quốc tế</span>
+                            </label>
+
+                        </div>
+                        <div class="col-4">
+                            <input id="card3" type="radio" name="phong" value="shopeepay">
+                            <label for="card3">
+                                <img class="card" src="/img/shopeepay.png" alt="">
+                                <span>Ví ShopeePay</span>
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <input id="card4" type="radio" name="phong" value="momo">
+                            <label for="card4">
+                                <img class="card" src="/img/momo.png" alt="">
+                                <span>Ví MoMo</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="warning">
+                        <div class="warning_text">
+                            <p>Vui lòng kiểm tra thông tin đầy đủ trước khi qua bước tiếp theo.</p>
+                            <span style="color: red;">*</span>
+                            Vé mua rồi không hoàn trả lại dưới mọi hình thức.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ticket_infor">
+            <div class="ticket_contain">
+                <img src="https://files.betacorp.vn/files/media/images/2023/10/03/400x633-110201-031023-57.jpg" alt="" style="width: 150px; height: 250px;" class="ticket_img">
+                <div class="ticket_contain--text">
+                    <p class="ticket_contain--text">Thắng đẹp troai</p>
+                    <p class="ticket_contain--type">2D Phụ đề</p>
+                </div>
+            </div>
+
+            <div class="ticket_discription">
+                <div class="ticket_nameTag">
+                    <p class="nameTag_category">
+                        <i class="fa-solid fa-tags"></i>
+                        Thể loại
+                    </p>
+                    <p class="nameTag_time">
+                        <i class="fa-regular fa-clock"></i>
+                        Thời lượng
+                    </p>
+                    <p class="nameTag_theater">
+                        <i class="fa-solid fa-building-columns"></i>
+                        Rạp chiếu
+                    </p>
+                    <p class="nameTag_calendarDay">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        Ngày chiếu
+                    </p>
+                    <p class="nameTag_timeShow">
+                        <i class="fa-regular fa-clock"></i>
+                        Giờ chiếu
+                    </p>
+                    <p class="nameTag_room">
+                        <i class="fa-solid fa-tv"></i>
+                        Phòng chiếu
+                    </p>
+                    <p class="nameTag_seat">
+                        <i class="fa-solid fa-cubes"></i>
+                        Ghế ngồi
+                    </p>
+                </div>
+
+                <div class="ticket_discription--text">
+                    <p class="ticket_text--category">a</p>
+                    <p class="ticket_text--time">a</p>
+                    <p class="ticket_text--theater">a</p>
+                    <p class="ticket_text--calendarDay">a</p>
+                    <p class="ticket_text--timeShow">a</p>
+                    <p class="ticket_text--room">a</p>
+                    <p class="ticket_text--seat"></p>
+                </div>
+            </div>
+            <div class="btn">
+                <a href="./DatVe.html">
+                    <button class="ticket_buy--btn">Quay lại</button>
+                </a>
+                <button class="ticket_buy--btn js_buy--movie-2">Tiếp tục</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Nút trở lên đầu -->
+<div class="scrollTop">
+    <i class="fas fa-chevron-up"></i>
+</div>
+        </div>
+
+@section Scripts {
+
+    <script>
+        const buyBtns2 = document.querySelectorAll('.js_buy--movie-2')
+        const modal2 = document.querySelector('.js_modal--2')
+        // click X
+        const modalContainer2 = document.querySelector('.js_modal--container--2')
+
+        const modalClose2 = document.querySelector('.js_modal--close-2')
+        const modalFtClose2 = document.querySelector('.js_btn--close-2')
+        // Hàm hiển thị  modal mua vé ( thêm class open vào modal)
+        function hideBuyMovie2() {
+            modal2.classList.remove('open')
+        }
+        // Hàm ẩn modal mua vé ( Gỡ bõ class open của modal)
+        function showBuyMovie2() {
+            modal2.classList.add('open')
+        }
+        // Lặp qua từng thẻ Button và nghe hành vi click
+        for (const buyBtn2 of buyBtns2) {
+            buyBtn2.addEventListener('click', showBuyMovie2)
+        }
+
+
+        // Nghe hành vi click vào dấu x
+        modalClose2.addEventListener('click', hideBuyMovie2)
+
+        modal2.addEventListener('click', hideBuyMovie2)
+
+        modalContainer2.addEventListener('click', function (event) {
+            event.stopPropagation()
+        })
+        modalFtClose2.addEventListener('click', hideBuyMovie2)
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop()) {
+                    $('.scrollTop').fadeIn();
+                } else {
+                    $('.scrollTop').fadeOut();
+                }
+            });
+            $('.scrollTop').click(function () {
+                $('html, body').animate({ scrollTop: 0 }, 500)
+            });
+        });
+    </script>
+    
+}

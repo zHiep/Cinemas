@@ -1,0 +1,50 @@
+﻿@model Cinemas.Models.Ghe
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-action="Admin" asp-controller="Home" asp-area="Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý ghế</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-action="Index" asp-controller="AdminGhe">Danh sách ghế</a>
+            <span class="breadcrumb-item active">Xóa ghế</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div asp-action="Delete" class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2"><h4>Bạn có chắc chắn muốn xóa ghế này ?</h4></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row"><h5 style="display:inline">ID</h5> : @Html.DisplayFor(model => model.Idghe)</td>
+                    </tr>
+                    <tr>
+                        <td scope="row"><h5 style="display:inline">Tên ghế : </h5> @Html.DisplayFor(model => model.TenGhe)</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <form asp-action="Delete" asp-route-id="@Model.Idghe">
+                                <input type="hidden" asp-for="Idghe" />
+                                <input value="Xác nhận xóa" type="submit" style="margin-right:25px;" class="btn btn-danger m-r-5" />
+                                <a asp-area="Admin" asp-controller="AdminGhe" asp-action="Index" class="btn btn btn-warning ">Hủy</a>
+                            </form>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

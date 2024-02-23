@@ -1,0 +1,43 @@
+﻿@model Cinemas.Models.Ghe
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-action="Admin" asp-controller="Home" asp-area="Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý ghế</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-action="Index" asp-controller="AdminGhe">Danh sách ghế</a>
+            <span class="breadcrumb-item active">Sửa quyền truy cập</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" method="post" asp-route-id="@Model.Idghe">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Idghe" />
+            <div class="form-group">
+                <div class="form-group row">
+                    <label for="TenGhe" class="col-sm-2 col-form-label">Tên ghế</label>
+                    <div class="col-sm-4">
+                        <input asp-for="TenGhe" type="text" class="form-control" id="TenGhe">
+                        <span asp-validation-for="TenGhe" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" style="margin-right:25px;">Lưu thay đổi</button>
+                        <a asp-area="Admin" asp-controller="AdminGhe" asp-action="Index" class="btn btn btn-danger">Hủy</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

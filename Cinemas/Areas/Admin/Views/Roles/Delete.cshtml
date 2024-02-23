@@ -1,0 +1,50 @@
+﻿@model Cinemas.Models.Role
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý hệ thống</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-action="Index" asp-controller="Roles">Quản lý quyền truy cập</a>
+            <span class="breadcrumb-item active">Xóa quyền truy cập</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div asp-action="Delete" class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2"><h4>Bạn có chắc chắn muốn xóa quyền truy cập này ?</h4></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row"><h5 style="display:inline">ID</h5> : @Html.DisplayFor(model => model.RoleId)</td>
+                    </tr>
+                    <tr>
+                        <td scope="row"><h5 style="display:inline">Tên quyền truy cập : </h5> @Html.DisplayFor(model => model.RoleName)</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <form asp-action="Delete" asp-route-id="@Model.RoleId">
+                                <input type="hidden" asp-for="RoleId" />
+                                <input value="Xác nhận xóa" type="submit" style="margin-right:25px;" class="btn btn-danger m-r-5" />
+                                <a asp-action="Index" class="btn btn btn-warning ">Hủy</a>
+                            </form>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

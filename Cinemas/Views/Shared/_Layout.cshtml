@@ -1,0 +1,178 @@
+﻿@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@inject IHttpContextAccessor Accessor;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Cinemas</title>
+    <link href="~/assetslayout/styles/text.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/assets/images/logo/pika.jpg">
+     <!-- Core css -->
+    <link href="~/assets/css/app.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/178af03e68.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <header id="header">
+            <div class="header_content">
+                <div class="grid">
+                    <div class="form">
+                        <div class="language">
+                            <img src="https://www.betacinemas.vn/Assets/Common/icons/vietnam.png" alt="" class="vn_flag">
+                        </div>
+
+                        @if (Accessor.HttpContext.Session.GetString("ThongTinKH") != null)
+                        {
+                            var thongtinkh = JsonConvert.DeserializeObject<KhachHang>(Accessor.HttpContext.Session.GetString("ThongTinKH"));
+                            
+                            <div class="user">
+                                <div class="user_name">
+                                    <span>Xin chào : @thongtinkh.TenKh</span>
+                                    <!-- <span><i class="fa-solid fa-angle-down"></i></span>  -->
+                                </div>
+                                <div class="user_inf4">
+                                    <ul class="user_list">
+                                        <li><a href="/thong-tin-tai-khoan.html"><i class="fa-solid fa-user-large"></i>Thông tin tài khoản</a></li>
+                                        <li><a asp-controller="HoaDon" asp-action="Index"><i class="fa-solid fa-wallet"></i>Lịch sử giao dịch</a></li>
+                                        <li><a href="/dang-xuat.html"><i class="fa-solid fa-square-caret-left"></i>Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form_register--login">
+                                <span class="login"><a style="color:#fff; text-decoration:none;" href="/dang-nhap.html">Đăng nhập</a></span>
+                                <span class="line">|</span>
+                                <span class="register"><a style="color:#fff; text-decoration:none;" href="/dang-ky.html">Đăng ký</a></span>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid" style="background-color: white;">
+                <nav id="navbar">
+                    <div class="logo">
+                        <img src="~/images/pandacinemas.png" alt="" class="logo_img">
+                    </div>
+                    <div class="options">
+                        <div class="options_city">
+                        </div>
+                    </div>
+                    <div class="nav_contents">
+                        <li><a asp-controller="Phim" asp-action="Index"> Trang chủ</a></li>
+                        <li><a asp-controller="Phim" asp-action="Rap">Rạp</a></li>
+                        <li><a asp-controller="HoaDon" asp-action="Index">Lịch sử mua vé</a></li>
+                        <li><a href="/thong-tin-tai-khoan.html">Thành viên</a></li>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        @* main *@
+        @RenderBody()
+
+        <div class="footer_line">
+        </div>
+
+        @* footer *@
+        <div class="grid" style="margin-bottom: 40px;">
+            <div id="footer">
+                <div class="footer_content">
+                    <div class="footer_content--info">
+                        <img src="~/images/PandaCinemas.png" alt="" class="footer_info--img">
+                        <div class="footer_info--list">
+                            <li><i class="fa-solid fa-angle-right"></i><a href="">Tuyển dụng</a></li>
+                            <li><i class="fa-solid fa-angle-right"></i><a href="">Giới thiệu</a></li>
+                            <li><i class="fa-solid fa-angle-right"></i><a href="">Liên hệ</a></li>
+                            <li><i class="fa-solid fa-angle-right"></i><a href="">Điều khoản sử dụng</a></li>
+                            <li><i class="fa-solid fa-angle-right"></i><a href="">Chính sách thanh toán, đổi trả hoàn vé</a></li>
+                            <li><i class="fa-solid fa-angle-right"></i><a href="">Hướng dẫn đặt vé online</a></li>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer_content">
+                    <div class="footer_content--cinema">
+                        <div class="footer_cinema--text">thông tin</div>
+                        <div class="footer_cinema--list">
+                            <li></i>CÔNG TY CỔ PHẦN BETA MEDIA</li>
+                            <li></i>Giấy chứng nhận ĐKKD số: 0106633482 - Đăng ký lần đầu ngày 08/09/2014 tại Sở Kế hoạch và Đầu tư Thành phố Hà Nội</li>
+                            <li></i>Địa chỉ trụ sở: Tầng 3, số 595, đường Giải Phóng, phường Giáp Bát, quận Hoàng Mai, thành phố Hà Nội</li>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer_content">
+                    <div class="footer_content--connect">
+                        <div class="footer_connect--text">Kết nối</div>
+                        <div class="footer_connect--icon">
+                            <i class="fa-brands fa-square-facebook"></i>
+                            <i class="fa-brands fa-youtube"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <div class="footer_connect--img">
+                            <img src="https://www.betacinemas.vn/Assets/Common/logo/dathongbao.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="footer_content">
+                    <div class="footer_content--contact">
+                        <div class="footer_contact--text">Liên hệ</div>
+                        <div class="footer_contact--list">
+                            <li>Hotline: 1900 636807</li>
+                            <li>Email: cskh@betacorp.vn</li>
+                            <li>Liên hệ hợp tác kinh doanh:</li>
+                            <li>Email: phuongdh@betagroup.vn</li>
+                            <li>Phone: +8490 666 9169</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Core Vendors JS -->
+    <script src="~/assets/js/vendors.min.js"></script>
+    <!-- page js -->
+    <script src="~/assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="~/assets/js/pages/dashboard-default.js"></script>
+    <!-- page js -->
+    <script src="~/assets/vendors/select2/select2.min.js"></script>
+    <script src="~/assets/vendors/quill/quill.min.js"></script>
+    <script src="~/assets/js/pages/e-commerce-product-edit.js"></script>
+    <!-- Core JS -->
+    <script src="~/assets/js/app.min.js"></script>
+    <!-- page css -->
+    <link href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <script>
+        // Lấy danh sách các input radio
+        const slides = document.querySelectorAll('input[name="slides"]');
+        let currentSlide = 0;
+
+        // Tự động chuyển slide sau mỗi 3 giây
+        function nextSlide() {
+            slides[currentSlide].checked = false;
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].checked = true;
+        }
+
+        // Thiết lập interval để tự động chuyển slide
+        let slideInterval = setInterval(nextSlide, 3000);
+    </script>
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

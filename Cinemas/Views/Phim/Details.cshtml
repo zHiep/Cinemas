@@ -1,0 +1,375 @@
+﻿@model Cinemas.Models.Phim
+
+@{
+    ViewData["Title"] = "Chi tiết phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/assetsLayout/styles/Trangchu.css" asp-append-version="true" />
+    <link href="~/assetslayout/styles/trangchitiet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assetslayout/styles/styles.css" asp-append-version="true" />
+}
+
+<div class="grid">
+    <div id="body">
+        <h3 class="heading">
+            <a asp-action="Index" asp-controller="Phim">Trang chủ</a> >
+            <span id="">@Model.TenPhim</span>
+        </h3>
+        <div class="container">
+            <div class="detailed">
+                <div class="detailed_title">
+                </div>
+                <div class="detailed_content">
+                    <img class="detailed_content--image" src="~/images/movies/@Model.Img" alt="Quỷ Linh nhi">
+                </div>
+            </div>
+
+            <div class="content">
+                <h2>@Model.TenPhim</h2>
+                <div class="content_detailed">
+                    <p>
+                        @Model.MoTa
+                    </p>
+                </div>
+                <div class="content_introduce"></div>
+                <div class="content_introduce--title">
+                    <div class="content_introduce--director">
+                        Đạo Diễn :
+                    </div>
+                    <div class="content_introduce--text">
+                        @Model.DaoDien
+                    </div>
+                </div>
+                <div class="content_introduce--title">
+                    <div class="content_introduce--director">
+                        Diễn Viên :
+                    </div>
+                    <div class="content_introduce--text">
+                        @Model.DienVien
+                    </div>
+                </div>
+                <div class="content_introduce--title">
+                    <div class="content_introduce--director">
+                        Thể Loại:
+                    </div>
+                    <div class="content_introduce--text">
+                        @Model.IdtheLoaiNavigation.TenTheLoai
+                    </div>
+                </div>
+                <div class="content_introduce--title">
+                    <div class="content_introduce--director">
+                        Thời lượng:
+                    </div>
+                    <div class="content_introduce--text">
+                        @Model.ThoiLuong phút
+                    </div>
+                </div>
+                <div class="content_introduce--title">
+                    <div class="content_introduce--director">
+                        Ngày khởi chiếu:
+                    </div>
+                    <div class="content_introduce--text">
+                        @Model.NgayKhoiChieu.ToShortDateString()
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="showtimes">
+            <div class="showtimes">
+                <ul id="tabNgayChieu" class="viewdate">
+                    @* ngày chiếu *@
+                </ul>
+
+                <div class="showtimes_content showtimes_content--modal">
+                    <div class="showtimes_content--subtitle">
+                        <span>Khung giờ chiếu </span>
+                    </div>
+                    <div id="listGio">
+                        @* render giờ *@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel_feelings--icon">
+            <a href="#!" class="icon"><i class="fa-solid fa-thumbs-up"></i>Like</a>
+            <a href="#!" class="icon"><i class="fa-solid fa-share"></i>share</a>
+        </div>
+    </div>
+
+    <div class="modal modal_two js_modal--2 js_modal--close-2">
+        <div class="modal-container--2 js_modal--container--2">
+            <div class="click_close js_btn--close-2 ">
+                <i class="fa-solid fa-xmark "></i>
+            </div>
+            <div class="modal_header">
+                <h3 class="modal_text">
+                    bạn đang đặt vé xem phim
+                </h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal_content" id="chitietten">
+                    @* tên *@
+                </div>
+                <div class="inf">
+                    <div class="timeshows">
+                        <div class="timeshows_text">
+                            <div>
+                                <span>Ngày chiếu</span>
+                            </div>
+                            <div>
+                                <span>Giờ chiếu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeshows" style="background-color: #f9f9f9; padding-top: 20px; font-weight: bold; font-size: 18px;">
+                        <div class="timeshows_text">
+                            <div id="chitietngay">
+                                @* ngày *@
+                            </div>
+                            <div id="chitietgio">
+                                @* giờ *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal_footer">
+                <a>
+                    <span id="btnSubmitDatVe" class="modal_footer--agree">Đồng ý</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+@section Scripts {
+    <script src="~/assetslayout/js/chitietphim.js"></script>
+    <script>
+        var itemId = @Model.Idphim;
+        $.ajax({
+            url: '/Phim/GetLichChieu',
+            datatype: "json",
+            type: 'GET',
+            data: { id: itemId },
+            success: function (results) {
+                var html = "";
+                var htmlNgay = "";
+                html += '<h3>lịch chiếu - <span>' + results.phim.tenPhim + '</span></h3>';
+                $('#titleLichChieu').html(html);
+
+                for (var i = 0; i < results.countngay; i++) {
+                    // Chuyển đổi chuỗi thành kiểu dữ liệu Date
+                    var dateObject = new Date(results.ngaychieu[i].ngayChieu);
+                    // Lấy thứ từ ngày hiện tại (0: Chủ nhật, 1: Thứ hai, ..., 6: Thứ bảy)
+                    var dayOfWeek = dateObject.getDay();
+                    // Mảng chứa tên các ngày trong tuần
+                    var days = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+                    // Lấy tên của thứ từ mảng days
+                    var dayName = days[dayOfWeek];
+                    htmlNgay += '<li class="tablinks viewdate_calendar" electronic="ngay-' + results.ngaychieu[i].ngayChieu.slice(0, 10) + '">';
+                    htmlNgay += '<span class="viewdate_calendar--number" > ' + results.ngaychieu[i].ngayChieu.slice(8, 10) + ' </span>/' + results.ngaychieu[i].ngayChieu.slice(5, 7) + ' - ' + dayName + '</li>';
+                }
+                $('#tabNgayChieu').html(htmlNgay);
+
+                var htmlGio = "";
+                for (var i = 0; i < results.countngay; i++) {
+                    htmlGio += '<div id="ngay-' + results.ngaychieu[i].ngayChieu.slice(0, 10) + '" class="tabcontent">';
+                    for (var j = 0; j < results.countgio; j++) {
+                        if (results.giochieu[j].ngayChieu == results.ngaychieu[i].ngayChieu) {
+                            htmlGio += '<div class="showtimes_title" >';
+                            htmlGio += '<div class="showtimes_title--time " >';
+                            htmlGio += '<div class="btn_time js_buy--movie-2" data-id="' + results.giochieu[j].idlichChieu + '">' + results.giochieu[j].gioChieu1.slice(0, 5) + '</div>';
+                            htmlGio += '<div class="showtimes_title--empty-seat" >' + results.giochieu[j].gheTrong + ' ghế trống</div></div></div>';
+                            console.log("lịch :" + results.giochieu[j].idlichChieu)
+                        }
+                    }
+                    htmlGio += '</div>';
+                }
+                $('#listGio').html(htmlGio);
+                $('#modalLichChieu').addClass('open');
+
+                /* TABLINk  viewdate */
+                var tabLinks = document.querySelectorAll(".tablinks");
+
+                var btn1 = document.querySelector(".tablinks")
+                var btn2 = document.querySelector(".tabcontent")
+                if (btn1 && btn2 && tabLinks) {
+                    btn1.classList.add('active')
+                    btn2.classList.add('active1')
+                    tabLinks.forEach(function (el) {
+                        el.addEventListener("click", (el) => {
+                            var tabContent = document.querySelectorAll(".tabcontent");
+                            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element
+                            console.log(btn)
+                            var electronic = btn.getAttribute('electronic'); // lấy giá trị trong data-electronic
+                            console.log(electronic)
+                            tabContent.forEach(function (el) {
+                                el.classList.remove("active1");
+                            }); //lặp qua các tab content để remove class active
+
+                            tabLinks.forEach(function (el) {
+                                el.classList.remove("active");
+                            }); //lặp qua các tab links để remove class active
+
+                            document.querySelector("#" + electronic).classList.add("active1");
+                            // trả về phần tử đầu tiên có id="" được add class active
+
+                            btn.classList.add("active");
+                            // các button mà chúng ta click vào sẽ được add class active
+
+                        });
+                    });
+
+                }
+
+                // <!-- modal xác nhận chi tiết lịch chiếu -->
+
+                $('.js_buy--movie-2').click(function (e) {
+                    e.preventDefault();
+                    var idlichChieu = $(this).data('id');
+                    $.ajax({
+                        url: '/Phim/GetLichChieuDetail',
+                        datatype: "json",
+                        type: 'GET',
+                        data: { id: idlichChieu },
+                        success: function (results) {
+
+                            var htmlChitietten = "";
+                            var htmlChitietngay = "";
+                            var htmlChitietgio = "";
+                            htmlChitietten += '<h1>' + results.lich[0].tenPhim + '</h1>';
+                            htmlChitietngay += '<span>' + results.lich[0].ngayChieu.slice(8, 10) + '/' + results.lich[0].ngayChieu.slice(5, 7) + '/' + results.lich[0].ngayChieu.slice(0, 4) + '</span>';
+                            htmlChitietgio += '<span>' + results.lich[0].gioChieu1.slice(0, 5) + '</span>';
+                            $('#chitietten').html(htmlChitietten);
+                            $('#chitietngay').html(htmlChitietngay);
+                            $('#chitietgio').html(htmlChitietgio);
+                            $('#btnSubmitDatVe').attr('data-id', idlichChieu)
+                            $('#btnSubmitDatVe').attr('data-phong', results.lich[0].idphong)
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+                });
+
+                const buyBtns2 = document.querySelectorAll('.js_buy--movie-2')
+                console.log(buyBtns2)
+                const modal2 = document.querySelector('.js_modal--2')
+                // click X
+                const modalContainer2 = document.querySelector('.js_modal--container--2')
+
+                const modalClose2 = document.querySelector('.js_modal--close-2')
+                const modalFtClose2 = document.querySelector('.js_btn--close-2')
+                // Hàm hiển thị  modal mua vé ( thêm class open vào modal)
+                function hideBuyMovie2() {
+                    modal2.classList.remove('open')
+                }
+                // Hàm ẩn modal mua vé ( Gỡ bõ class open của modal)
+                function showBuyMovie2() {
+                    modal2.classList.add('open')
+                }
+                // Lặp qua từng thẻ Button và nghe hành vi click
+                for (const buyBtn2 of buyBtns2) {
+                    buyBtn2.addEventListener('click', showBuyMovie2)
+                }
+                // Nghe hành vi click vào dấu x
+                modalClose2.addEventListener('click', hideBuyMovie2)
+
+                modal2.addEventListener('click', hideBuyMovie2)
+
+                modalContainer2.addEventListener('click', function (event) {
+                    event.stopPropagation()
+                })
+                modalFtClose2.addEventListener('click', hideBuyMovie2)
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+        $('#btnSubmitDatVe').click(function (e) {
+            e.preventDefault();
+            var idLichChieu = $(this).data('id');
+            var idPhong = $(this).data('phong');
+            $.ajax({
+                url: '/DatVe/PostDataDatVe',
+                datatype: "json",
+                type: 'GET',
+                data: {
+                    id: idLichChieu,
+                    idphong: idPhong
+                },
+                success: function (results) {
+                    window.location.href = results.url;
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        });
+    </script>
+    <script>
+
+        const buyBtns = document.querySelectorAll('.js-buy-movie')
+        const modal = document.querySelector('.js-modal')
+        // click X
+        const modalContainer = document.querySelector('.js-modal-container')
+        const modalClose = document.querySelector('.js-modal-close')
+        const modalFtClose = document.querySelector('.js-btn-close')
+        // Hàm hiển thị  modal mua vé ( thêm class open vào modal)
+        function hideBuyMovie() {
+            modal.classList.remove('open')
+        }
+        // Hàm ẩn modal mua vé ( Gỡ bõ class open của modal)
+        function showBuyMovie() {
+            modal.classList.add('open')
+        }
+        // Lặp qua từng thẻ Button và nghe hành vi click
+        for (const buyBtn of buyBtns) {
+            buyBtn.addEventListener('click', showBuyMovie)
+        }
+        // Nghe hành vi click vào dấu x
+        modalClose.addEventListener('click', hideBuyMovie)
+
+        modal.addEventListener('click', hideBuyMovie)
+
+        modalContainer.addEventListener('click', function (event) {
+            event.stopPropagation()
+        })
+        modalFtClose.addEventListener('click', hideBuyMovie)
+
+
+
+        /* TABLINk movie_status */
+
+        var tabLinks_grid = document.querySelectorAll(".tablinks_grid");
+
+        var btn1_grid = document.querySelector(".tablinks_grid")
+        var btn2_grid = document.querySelector(".tabcontent_grid")
+        if (btn1_grid && btn2_grid && tabLinks_grid) {
+            btn1_grid.classList.add('active')
+            btn2_grid.classList.add('active1')
+            tabLinks_grid.forEach(function (el) {
+                el.addEventListener("click", (el) => {
+                    var tabContent_grid = document.querySelectorAll(".tabcontent_grid");
+                    var btn_grid = el.currentTarget; // lắng nghe sự kiện và hiển thị các element
+                    console.log(btn_grid)
+                    var electronic = btn_grid.getAttribute('electronic'); // lấy giá trị trong data-electronic
+                    console.log(electronic)
+                    tabContent_grid.forEach(function (el) {
+                        el.classList.remove("active1");
+                    }); //lặp qua các tab content để remove class active
+
+                    tabLinks_grid.forEach(function (el) {
+                        el.classList.remove("active");
+                    }); //lặp qua các tab links để remove class active
+
+                    document.querySelector("#" + electronic).classList.add("active1");
+                    // trả về phần tử đầu tiên có id="" được add class active
+
+                    btn_grid.classList.add("active");
+                    // các button mà chúng ta click vào sẽ được add class active
+                });
+            });
+        }
+    </script>
+}

@@ -1,0 +1,501 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Cinemas.Models.Phim>
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách phim" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" asp class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý phim</a>
+            <span class="breadcrumb-item active">Danh sách phim : page @CurrentPage</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                @* <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" id="idTheLoai" name="idTheLoai" style="min-width: 200px;" asp-items="ViewBag.TenTheLoai">
+                            <option value="" disabled selected>Chọn thể loại</option>
+                            <option value="0">Chọn tất cả</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" id="idTinhTrang" name="idTinhTrang" style="min-width: 200px;" asp-items="ViewBag.TenTinhTrang">
+                            <option value="" disabled selected>Chọn tình trạng</option>
+                            <option value="0">Chọn tất cả</option>
+                        </select>
+                    </div>
+                </div> *@
+                @* <button id="ngaytang" class="btn btn-primary m-r-5">Tăng Ngày</button>
+                <button id="ngaygiam" class="btn btn-primary m-r-5">Giảm Ngày</button> *@
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="AdminPhim" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm phim mới</span>
+                </a>
+            </div>
+        </div>
+        <div class="">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="col-sm-12">
+                    <table class="table table-hover e-commerce-table dataTable no-footer" id="tbHoaDon" role="grid" aria-describedby="DataTables_Table_0_info">
+                        <thead>
+                            <tr role="row">
+                                <th></th>
+                                <th>Tên phim</th>
+                                <th>Ảnh</th>
+                                <th>Thể loại</th>
+                                <th>Thời lượng</th>
+                                <th>Giá vé</th>
+                                <th>Ngày khởi chiếu</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr role="row" class="odd">
+                                        <td>
+                                            <a data-toggle="modal" data-target="#exampleModal-@item.Idphim" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                <i class="anticon anticon-eye"></i>
+                                            </a>
+                                        </td>
+                                        <td>@item.TenPhim </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img class="img-fluid rounded" src="~/images/movies/@item.Img" style="max-width: 60px" alt="">
+                                            </div>
+                                        </td>
+                                        <td>@item.IdtheLoaiNavigation.TenTheLoai</td>
+                                        <td>@item.ThoiLuong phút</td>
+                                        <td>@((item.Gia/1000).ToString("#.##0")) VNĐ</td>
+                                        <td class="date">@item.NgayKhoiChieu.ToShortDateString()</td>
+                                        <td>@item.IdtinhTrangPhimNavigation.TenTinhTrang</td>
+
+                                        <td class="text-right">
+                                            <a data-id="@item.Idphim" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right updatePhim" data-toggle="modal">
+                                                <i class="anticon anticon-edit"></i>
+                                            </a>
+                                            <a class="btn btn-icon btn-hover btn-sm btn-rounded" data-toggle="modal" data-target="#deleteModal-@item.Idphim">
+                                                <i class="anticon anticon-delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    //Modal delete
+                                    <div class="modal fade" id="deleteModal-@item.Idphim">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Bạn có chắc chắn muốn xóa phim này ?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        <i class="anticon anticon-close"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div>
+                                                        <div class="media align-items-center m-b-15">
+                                                            <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                                                                <img src="~/images/movies/@item.Img" alt="">
+                                                            </div>
+                                                            <div class="m-l-15">
+                                                                <h4 class="m-b-0">@item.TenPhim</h4>
+                                                                <p class="text-muted m-b-0">ID Phim: @item.Idphim</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-danger  delete-link" data-id="@item.Idphim">Xóa</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    //Modal view
+                                    <div class="modal fade bd-example-modal-lg" id="exampleModal-@item.Idphim">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div>
+                                                        <button type="button" class="close" data-dismiss="modal">
+                                                            <i class="anticon anticon-close"></i>
+                                                        </button>
+                                                        <div class="media align-items-center m-b-15">
+                                                            <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                                                                <img src="~/images/movies/@item.Img" alt="">
+                                                            </div>
+                                                            <div class="m-l-15">
+                                                                <h4 class="m-b-0">@item.TenPhim</h4>
+                                                                <p class="text-muted m-b-0">ID Phim: @item.Idphim</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="m-t-25">
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Giá vé:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @((item.Gia/1000).ToString("#.##0")) VNĐ
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Thể loại:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @item.IdtheLoaiNavigation.TenTheLoai
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Thời lượng:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @item.ThoiLuong phút
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Ngày khởi chiếu:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @item.NgayKhoiChieu.ToShortDateString()
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Đạo diễn:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @item.DaoDien
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Diễn viên:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @item.DienVien
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Mô tả:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @item.MoTa
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-bottom: 8px;">
+                                                                <div class="col-3">
+                                                                    Tình trạng:
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @if (item.IdtinhTrangPhimNavigation.TenTinhTrang == "Đang chiếu")
+                                                                    {
+                                                                        <span class="badge badge-pill badge-success">Đang chiếu</span>
+                                                                    }
+                                                                    else if (item.IdtinhTrangPhimNavigation.TenTinhTrang == "Sắp chiếu")
+                                                                    {
+                                                                        <span class="badge badge-pill badge-warning">Sắp chiếu</span>
+                                                                    }
+                                                                    else if (item.IdtinhTrangPhimNavigation.TenTinhTrang == "Ngừng chiếu")
+                                                                    {
+                                                                        <span class="badge badge-pill badge-danger">Ngừng chiếu</span>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <pager class="page-link" list="@Model" asp-asp-area="Admin" asp-controller="AdminPhim" asp-route-IdTheLoai="@ViewBag.CurrenCateID" asp-action="Index" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formUpdate" asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Idphim" id="Idphim" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="tab-content m-t-15">
+                        <div class="tab-pane fade show active" id="product-edit-basic">
+                            <div class="row">
+                                <div class="form-group col-5">
+                                    <label class="font-weight-semibold">Tên Phim</label>
+                                    <input id="TenPhim" class="form-control" name="TenPhim">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="font-weight-semibold">Giá vé</label>
+                                    <input id="Gia" class="form-control" name="Gia">
+                                </div>
+                                <div class="form-group col-5">
+                                    <label class="font-weight-semibold">Đạo điễn</label>
+                                    <input id="DaoDien" type="text" class="form-control" name="DaoDien">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <img id="showImg" class="img-fluid rounded" src="" style="max-width: 110px;margin-right:24px" alt="">
+                                    <div id="checkImg">
+                                        <input id="Img" name="Img" class="form - control" style="display: none; ">
+                                        <label id="changeImg" class="btn btn-primary" style="margin-top:12px;" onclick="handleChange()"> Thay đổi hình ảnh </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="font-weight-semibold">Thể loại</label>
+                                    <select id="IdtheLoai" name="IdtheLoai" class="form-control" asp-items="ViewBag.TenTheLoai"></select>
+                                    <br />
+                                    <br />
+                                    <label class="font-weight-semibold">Thời lượng</label>
+                                    <input id="ThoiLuong" class="form-control" name="ThoiLuong">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="font-weight-semibold">Tình trạng phim</label>
+                                    <select id="IdtinhTrangPhim" name="IdtinhTrangPhim" class="form-control" asp-items="ViewBag.TenTinhTrang"></select>
+                                    <br />
+                                    <br />
+                                    <label name="NgayKhoiChieu" class="control-label">Ngày khởi chiếu</label>
+                                    <input type="datetime-local" id="NgayKhoiChieu" name="NgayKhoiChieu" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="font-weight-semibold">Diễn viên</label>
+                                    <textarea id="DienVien" class="form-control" name="DienVien" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="font-weight-semibold">Mô tả</label>
+                                    <textarea id="MoTa" class="form-control" name="MoTa" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-success" value="Lưu thay đổi" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#ngaygiam').click(function (e) {
+                e.preventDefault();
+                var table = $('#tbHoaDon');
+                var rows = table.find('tr').toArray();
+
+                rows.sort(function (a, b) {
+                    var costA = moment($(a).find('td.date').text(), 'DD/MM/YYYY');
+                    var costB = moment($(b).find('td.date').text(), 'DD/MM/YYYY');
+                    return costB - costA;
+                });
+                table.empty();
+                $.each(rows, function (index, row) {
+                    table.append(row);
+                });
+            });
+            $('#ngaytang').click(function (e) {
+                e.preventDefault();
+                var table = $('#tbHoaDon');
+                var rows = table.find('tr').toArray();
+
+                rows.sort(function (a, b) {
+                    var costA = moment($(a).find('td.date').text(), 'DD/MM/YYYY');
+                    var costB = moment($(b).find('td.date').text(), 'DD/MM/YYYY');
+                    return costA - costB;
+                });
+
+                table.empty();
+                $.each(rows, function (index, row) {
+                    table.append(row);
+                });
+            });
+
+            //Lọc theo thể loại
+            jQuery("#idTheLoai").change(function () {
+                var idTL = jQuery(this).children(":selected").attr("value");
+                var idTT = jQuery("#idTinhTrang").children(":selected").attr("value");
+                idTL = parseFloat(idTL);
+                idTT = parseFloat(idTT);
+                $('#idTheLoai option')
+                    .removeAttr('selected');
+                $.ajax({
+                    url: '/Admin/AdminPhim/Filter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        IdTheLoai: idTL,
+                        IdTinhTrang: idTT
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+            //Lọc theo tình trạng
+            jQuery("#idTinhTrang").change(function () {
+                var idTT = jQuery(this).children(":selected").attr("value");
+                var idTL = jQuery("#idTheLoai").children(":selected").attr("value");
+                idTT = parseFloat(idTT);
+                idTL = parseFloat(idTL);
+                $('#idTinhTrang option')
+                    .removeAttr('selected');
+                $.ajax({
+                    url: '/Admin/AdminPhim/Filter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        IdTinhTrang: idTT,
+                        IdTheLoai: idTL
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $('.delete-link').click(function (e) {
+                e.preventDefault();
+                var itemId = $(this).data('id');
+                deleteItem(itemId);
+            });
+
+            function deleteItem(itemId) {
+                $.ajax({
+                    url: '/Admin/AdminPhim/Delete',
+                    datatype: "json",
+                    type: 'POST',
+                    data: { id: itemId },
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.urlindex;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            }
+            $('.updatePhim').click(function () {
+                var id = $(this).data('id');
+                getDateById(id);
+            });
+
+            function getDateById(id) {
+                $.ajax({
+                    url: '/Admin/AdminPhim/GetById',
+                    type: 'GET',
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            console.log(results.data);
+                            if (results.data != null) {
+                                var html = "";
+                                html = '<input id="Img" name="Img" class="form - control" style="display: none; "><label style="margin-top:12px;" id = "changeImg" onclick="handleChange()" class="btn btn-primary" > Thay đổi hình ảnh </label>';
+                                $('#checkImg').html(html);
+                                $("#Idphim").val(results.data.idphim);
+                                $("#TenPhim").val(results.data.tenPhim);
+                                $("#Img").val(results.data.img);
+                                $("#Gia").val(results.data.gia);
+                                $("#IdtheLoai").val(results.data.idtheLoai);
+                                $("#IdtinhTrangPhim").val(results.data.idtinhTrangPhim);
+                                $("#ThoiLuong").val(results.data.thoiLuong);
+                                $("#NgayKhoiChieu").val(results.data.ngayKhoiChieu);
+                                $("#DaoDien").val(results.data.daoDien);
+                                $("#DienVien").val(results.data.dienVien);
+                                $("#MoTa").val(results.data.moTa);
+                                $('#showImg').attr('src', "/images/movies/" + results.data.img);
+                                //$('#formUpdate').attr('action', "/Admin/AdminPhim/Edit/" + results.data.idphim);
+                                $('#save').attr('data-id', results.data.idphim);
+                            }
+                        }
+                        $('#updateModal').modal('show');
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            }
+        });
+
+        function handleChange() {
+            const html = '<label for="Img" class="btn btn-primary" style="margin-top:12px;">Chọn hình mới</label><input id="Img" type = "file" name = "fImg" style="display:none;" class="form-control" >';
+
+            const showimg = document.getElementById('checkImg');
+            showimg.innerHTML = html;
+            document.getElementById('Img').addEventListener('change', function (e) {
+                console.log(e.target)
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('showImg').setAttribute('src', event.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+        };
+    </script>
+                }
+
+

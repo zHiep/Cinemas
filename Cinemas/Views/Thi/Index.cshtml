@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Cinemas.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Thi kết thúc học phần";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/assetsLayout/styles/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/assetsLayout/styles/Trangchu.css" asp-append-version="true" />
+
+}
+
+
+<div class="card-body"><h1>@ViewData["Title"]</h1></div>
+<div class="container">
+    <div class="search-bar">
+        <input type="text" value="@ViewBag.ValInputSearch" id="searchInput" class="search-input" placeholder="Tìm kiếm ...">
+        <button id="searchBtn" class="search-button">Tìm kiếm</button>
+    </div>
+
+    <div class="product-grid">
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                @foreach (var phim in ViewBag.LsPhim)
+                {
+                    if (phim.TenPhim == item.IdlichChieuNavigation.IdphimNavigation.TenPhim)
+                    {
+                        <div class="product">
+                            <img src="~/images/movies/@phim.Img" alt="phimavt">
+                            <div class="product-name">@phim.TenPhim</div>
+                            <div class="product-price">Giá vé: @phim.Gia VNĐ</div>
+                            <button id="changedisable" class="btn btn-primary m-r-5">Enable</button>
+                        </div>
+                        break;
+                    }
+                }
+            }
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        
+        $(document).ready(function () {
+            $('#searchBtn').click(function (e) {
+                e.preventDefault();
+                var tenphim = jQuery("#searchInput").val();
+                $.ajax({
+                    url: '/Thi/SearchPhim',
+                    datatype: "json",
+                    type: 'GET',
+                    data: {
+                        chuoitimkiem: tenphim
+                    },
+                    success: function (results) {
+                        window.location.href = results.redirectUrl;
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+
+                });
+            });
+            $('#changedisable').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/Thi/DisableChange',
+                    datatype: "json",
+                    type: 'GET',
+                    success: function (results) {
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+
+                });
+            });
+
+        });
+    </script>
+}

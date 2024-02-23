@@ -1,0 +1,139 @@
+﻿@model Cinemas.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Tài khoản của bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Cinemas.ModelViews.ChangePasswordUserViewModel changePassword = new Cinemas.ModelViews.ChangePasswordUserViewModel();
+    <link href="~/assetslayout/styles/ThanhVien.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assetsLayout/styles/Trangchu.css" rel="stylesheet" asp-append-version="true" />
+}
+
+
+<div class="grid" style="background-color: #F8F8F8; margin-top: 20px;">
+    <div id="members">
+        <div class="members_content">
+            <a href="" class="members_content--text">thông tin tài khoản</a>
+            <a asp-action="Index" asp-controller="HoaDon" class="members_content--text">lịch sử giao dịch</a>
+        </div>
+        <form asp-controller="Accounts" asp-action="ThongTinTaiKhoan" method="post" enctype="multipart/form-data" class="members_check">
+            <input type="hidden" asp-for="Idkh" />
+            <input type="hidden" asp-for="Salt" />
+            <div class="members_check--img">
+                <img id="showImg" class="members_check--contain" src="~/images/avatars/@Model.Avatar" style="margin-right:24px" alt="">
+                <div id="checkImg">
+                    <input id="Img" name="Img" class="form - control" style="display: none; ">
+                    <label id="changeImg" class="members_check--btn" onclick="handleChange()"> Thay đổi hình ảnh </label>
+                </div>
+            </div>
+            <div class="members_check--info">
+                <div class="members_check--left">
+                    <div class="member_check--contain">
+                        <label asp-for="TenKh" class="members_check--name">
+                        <i class="fa-solid fa-user"></i>
+                            Họ tên
+                        </label>
+                        <input asp-for="TenKh" value="@Model.TenKh" type="text" class="members_name--input" placeholder="">
+                        <br>
+                        <span asp-validation-for="TenKh" class="infomation_style"></span>
+                    </div>
+
+                    <div class="member_check--contain">
+                        <label asp-for="Sdt" class="members_check--phone">
+                            <i class="fa-solid fa-phone"></i>
+                            Số điện thoại
+                        </label>
+                        <input asp-for="Sdt" type="text" value="@Model.Sdt" class="members_phone--input" placeholder="">
+                        <br>
+                        <span asp-validation-for="Sdt" class="infomation_style"></span>
+                    </div>
+
+                    <div class="member_check--contain">
+                        <label asp-for="NgaySinh" class="members_check--date">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Ngày sinh
+                        </label>
+                        <input asp-for="NgaySinh" type="date" class="members_date--input" placeholder="">
+                        <br>
+                    </div>
+
+
+                </div>
+
+                <div class="members_check--right">
+                    <div class="member_check--contain">
+                        <label asp-for="Email" class="members_check--email">
+                            <i class="fa-solid fa-envelope"></i>
+                            Email
+                        </label>
+                        <input asp-for="Email" value="@Model.Email" type="email" class="members_email--input" placeholder="">
+                        <br>
+                        <span asp-validation-for="Email" class="infomation_style"></span>
+                    </div>
+
+                    <div class="member_check--contain">
+                        <label asp-for="GioiTinh" class="members_check--sex">
+                            <i class="fa-solid fa-venus-mars"></i>
+                            Giới tính
+                        </label>
+                        <select id="GioiTinh" name="GioiTinh" asp-items="ViewBag.LsGioiTinh" class="members_sex--input"></select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="members_check--bottom">
+                <label asp-for="DiaChi" class="members_check--location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Địa chỉ
+                </label>
+                <input asp-for="DiaChi" type="text" class="members_location--input" placeholder="">
+                <br>
+            </div>
+
+            <p class="change_password"><span>Đổi mật khẩu?</span></p>
+
+            <div class="members_check--update">
+                <button class="member_update--btn" type="submit">Cập nhật</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<!-- MODAL đổi mật khẩu -->
+<div class="modal">
+    <div class="modal-changePassword">
+        <div class="modal-close">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+
+        <div class="modal-header">
+            <!-- <i class="fa-solid fa-lock"></i> -->
+            <i class="fa-solid fa-lock-open"></i>
+            Đổi mật khẩu
+        </div>
+
+        @await Html.PartialAsync("_ChangePasswordPartialView",changePassword);
+    </div>
+</div>
+@section Scripts {
+        <<script src="~/assetslayout/js/thanhvien.js"></script>
+            <script>
+        function handleChange() {
+            const html = '<label for="Img" class="members_check--btn">Chọn hình mới</label><input id="Img" type="file" name="fImg" style="display:none;" class="form-control">';
+
+            const showimg = document.getElementById('checkImg');
+            showimg.innerHTML = html;
+            document.getElementById('Img').addEventListener('change', function (e) {
+                console.log(e.target)
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('showImg').setAttribute('src', event.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+        };
+            </script>
+}
+

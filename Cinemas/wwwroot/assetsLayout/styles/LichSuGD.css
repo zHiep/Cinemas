@@ -1,0 +1,206 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    text-decoration: none;
+    font-size: 15px;
+    font-family: Oswald, sans-serif;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;;
+}
+
+.grid {
+    padding-left: 300px;
+    padding-right: 300px;
+}
+
+.main {
+
+}
+
+
+/* MEMBERS */
+
+#members {
+    padding-top: 15px;
+    padding-bottom: 50px;
+}
+
+.members_content {
+    overflow: hidden;
+    display: flex;
+}
+
+.members_content--text {
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 15px;
+    display: inline;
+}
+
+.members_content--text:last-child {
+    background-color: #03599D;
+    color: white;
+}
+
+.members_content--text:hover {
+    background-color: #03599D;
+    color: white;
+}
+
+.transaction_check {
+    background-color: white;
+    border-top: 1px solid #ccc;
+}
+
+.transaction_check--list {
+    display: flex;
+    margin-top: 20px;
+}
+
+.transaction_check--list li {
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+    margin-bottom: 50px;
+}
+
+.transaction_check--list li:first-child {
+    margin-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 40px;
+    padding-left: 10px;
+}
+
+.transaction_check--name {
+    padding-right: 150px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.transaction_check--cinema,
+.transaction_check--capacity,
+.transaction_check--seat,
+.transaction_check--daytime {
+    padding-right: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+
+
+
+.modal-content {
+    margin-left: -15%;
+    /* background: linear-gradient(to bottom, #5b9bd1, #ffffff); */
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+    width: 700px;
+    background-color: white;
+}
+
+.modal-title {
+    color: #075fa3;
+    padding-left: 33%;
+}
+
+.modal-body {
+    padding-right: 40px;
+    padding-left: 20px;
+}
+
+.body_top {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-bill {
+}
+
+    .info-bill > li:first-child,
+    .modal_nameClient,
+    .modal_bill {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+.modal_line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0.2px solid #ccc;
+}
+
+.body_description,
+.body_infoMovie {
+    display: flex;
+    justify-content: space-between;
+}
+
+.description_name,
+.modal_movie {
+    width: 50%;
+}
+
+.description_time,
+.description_numCough,
+.modal_time,
+.modal_numCough {
+    width: 30%;
+}
+
+.description_pay,
+.modal_pay {
+    width: 20%;
+}
+
+.description_name,
+.description_time,
+.description_numCough,
+.description_pay {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.body_footer--left {
+    margin-top: 30px;
+}
+
+.body_footer--info {
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
+
+/* Nút trở lên đầu */
+.scrollTop {
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+}
+
+    .scrollTop i {
+        font-size: 20px;
+        font-weight: bolder;
+        padding: 14px;
+        border-radius: 50%;
+        background: #075fa3;
+        color: white;
+        cursor: pointer;
+    }

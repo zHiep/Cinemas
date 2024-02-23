@@ -1,0 +1,341 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@inject IHttpContextAccessor Accessor;
+@{
+    int n = 0;
+    ViewData["Title"] = "Quản lý lịch chiếu phim";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" asp class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý lịch chiếu phim</a>
+            <span class="breadcrumb-item active">Danh sách lịch chiếu phim </span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" id="idngay" name="idngay" style="min-width: 200px;" asp-items="ViewBag.NgayChieu">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            @foreach (var item in ViewBag.Phong)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#phong-@item.Idphong">@item.TenPhong</a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content m-t-15">
+            @foreach (var phong in ViewBag.Phong)
+            {
+                List<string> NameList = new List<string>();
+                @foreach (var itemName in ViewBag.TenPhim)
+                {
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            if (item.IdphongNavigation.TenPhong == phong.TenPhong)
+                            {
+                                @foreach (var tenphim in ViewBag.TenPhim)
+                                {
+                                    System.Type type = tenphim.GetType();
+                                    string name = (string)type.GetProperty("TenPhim").GetValue(tenphim, null);
+                                    if (item.IdphimNavigation.TenPhim == name)
+                                    {
+                                        if (!NameList.Contains(name))
+                                        {
+                                            NameList.Add(name);
+                                        }
+                                        else break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                <div class="tab-pane fade" id="phong-@phong.Idphong">
+                    <div class="col-lg-4 text-right">
+                        <button type="button" data-idphong="@phong.Idphong" class="btn btn-primary createlich">
+                            <i class="anticon anticon-plus-circle m-r-5"></i>
+                            <span>Thêm phim</span>
+                        </button>
+                    </div>
+                    <div class="">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="col-sm-12">
+                                @for (int i = 0; i<NameList.Count(); i++)
+                                {
+                                    foreach (var idphim in ViewBag.Phim)
+                                    {
+                                        if (idphim.TenPhim == NameList[i])
+                                        {
+                                            <div class="accordion" id="accordion-@(phong.Idphong+n)">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5 class="card-title">
+                                                            <a data-toggle="collapse" class="collapsed" href="#collapse-@n">
+                                                                <span>@NameList[i]</span>
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapse-@n" class="collapse" data-parent="#accordion-@(phong.Idphong+n)">
+                                                        <div class="card-body">
+                                                            <table class="table table-hover e-commerce-table no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                                                <thead>
+                                                                    <tr role="row">
+                                                                        <th>Giờ chiếu</th>
+                                                                        <th>
+                                                                            <div class="col-lg-4 text-right">
+                                                                                <button data-idphim="@idphim.Idphim" data-idphong="@phong.Idphong" type="button" class="btn btn-primary createGio">
+                                                                                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                                                                                    <span>Thêm giờ</span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @if (Model != null)
+                                                                    {
+                                                                        foreach (var item in Model)
+                                                                        {
+                                                                            if (item.IdphongNavigation.TenPhong == phong.TenPhong)
+                                                                            {
+                                                                                if (item.IdphimNavigation.TenPhim == NameList[i])
+                                                                                {
+                                                                                    <tr role="row" class="odd" style="width:fit-content;">
+                                                                                        <td>@item.IdgioChieuNavigation.GioChieu1 </td>
+
+                                                                                        <td class="text-right">
+                                                                                            <a asp-area="Admin" asp-controller="AdminLichChieuPhim" asp-action="Edit" asp-route-id="@item.IdlichChieu" class="btn btn-icon btn-hover btn-sm btn-rounded ">
+                                                                                                <i class="anticon anticon-edit"></i>
+                                                                                            </a>
+                                                                                            <a asp-area="Admin" asp-controller="AdminLichChieuPhim" asp-action="Delete" asp-route-id="@item.IdlichChieu" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                                                                <i class="anticon anticon-delete"></i>
+                                                                                            </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                   
+                                    n++;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="createLich1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="AdminLichChieuPhim" asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="tab-content m-t-15">
+                        <div class="tab-pane fade show active" id="product-edit-basic">
+                            <div class="form-group">
+                                <label class="font-weight-semibold">Ngày chiếu</label>
+                                <input type="datetime-local" id="NgayChieu" name="NgayChieu" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-semibold">Phòng</label>
+                                <select class="custom-select" id="Idphong" name="Idphong" style="min-width: 200px;" asp-items="ViewBag.Idphong">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-semibold">Giờ chiếu</label>
+                                <select class="custom-select" id="IdgioChieu" name="IdgioChieu" style="min-width: 200px;" asp-items="ViewBag.IdgioChieu">
+                              
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-semibold">Tên Phim</label>
+                                <select class="custom-select" id="Idphim" name="Idphim" style="min-width: 200px;" asp-items="ViewBag.Idphim">
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-semibold">Ghế trống</label>
+                                <input id="GheTrong" value="100" class="form-control" name="GheTrong">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-success" value="Tạo" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="createLich2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="tab-content m-t-15">
+                        <div class="tab-pane fade show active" id="product-edit-basic">
+                            <div class="form-group">
+                                <label class="font-weight-semibold">Giờ chiếu</label>
+                                <select class="custom-select" id="newgio" style="min-width: 200px;" asp-items="ViewBag.IdgioChieu">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <input type="button" id="btnThemGio" class="btn btn-success" value="Thêm" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
+    <script>
+        $(document).ready(function () {
+            jQuery("#idngay").change(function () {
+                var ngay1 = jQuery(this).children(":selected").attr("value");
+                console.log(ngay1);
+                $.ajax({
+                    url: '/Admin/AdminLichChieuPhim/Filter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        ngay: ngay1
+                    },
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $('.createlich').click(function () {
+                var dateString = jQuery("#idngay").children(":selected").attr("value");
+                // Tách ngày, tháng và năm từ chuỗi
+                var parts = dateString.split('/');
+                var day = parts[0];
+                var month = parts[1];
+                var year = parts[2];
+
+                // Định dạng lại chuỗi ngày/tháng/năm theo định dạng "dd-MM-yyyy"
+                var ngay = month + '/' + day + '/' + year;
+
+                var itemId = $(this).data('idphong');
+                $('#Idphong').val(itemId);
+
+                // Sử dụng moment.js để chuyển đổi chuỗi ngày thành đối tượng moment
+                var momentDate = moment(ngay);
+
+                // Kiểm tra xem đối tượng moment đã được tạo thành công chưa
+                if (momentDate.isValid()) {
+                    // Chuyển đổi đối tượng moment về chuỗi định dạng "YYYY-MM-DDTHH:mm"
+                    var formattedDateTime = momentDate.format('YYYY-MM-DDTHH:mm');
+
+                    // Thiết lập giá trị cho trường nhập liệu có id là "NgayChieu" với kiểu dữ liệu "datetime-local"
+                    $('#NgayChieu').val(formattedDateTime); // Đặt giá trị ngày tháng vào input
+
+                    $('#createLich1').modal('show');
+                } else {
+                    // Xử lý khi chuỗi ngày không hợp lệ
+                    console.log('Chuỗi ngày không hợp lệ');
+                }
+            });
+
+            $('.createGio').click(function () {
+                $('#btnThemGio').attr('data-idphong', $(this).data('idphong'));
+                $('#btnThemGio').attr('data-idphim', $(this).data('idphim'));
+                $('#createLich2').modal('show');
+            });
+
+            $('#btnThemGio').click(function () {
+                var ngay = jQuery("#idngay").children(":selected").attr("value");
+                var giochieu = jQuery("#newgio").children(":selected").attr("value");
+
+                var IDphong = parseInt($(this).data('idphong'));
+                var IDphim = parseInt($(this).data('idphim'));
+
+                
+                $.ajax({
+                    url: '/Admin/AdminLichChieuPhim/CreateGioChieu',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        idphim: IDphim,
+                        idphong: IDphong,
+                        idgio: giochieu,
+                        soluongghe:100,
+                        ngaychieu: ngay
+                    },
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+                  
+
+            });
+        });
+    </script>
+}
+
+
+
+

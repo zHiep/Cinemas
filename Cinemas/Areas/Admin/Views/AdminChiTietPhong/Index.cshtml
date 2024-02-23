@@ -1,0 +1,100 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Cinemas.Models.GhePhong>
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Chi tiết phòng chiếu" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" asp class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý phim</a>
+            <span class="breadcrumb-item active">Chi tiết phòng chiếu : page @CurrentPage</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" id="idrole" name="idrole" style="min-width: 200px;" asp-items="ViewBag.RoleName">
+                            <option value="0" disabled selected>Chọn </option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" id="idstatus" name="idstatus" style="min-width: 200px;" asp-items="ViewBag.lsTrangThai">
+                            <option value="" disabled selected>Chọn </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="AdminChiTietPhong" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm mới</span>
+                </a>
+            </div>
+        </div>
+        <div class="">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="col-sm-12">
+                    <table class="table table-hover e-commerce-table dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                        <thead>
+                            <tr role="row">
+                                <th>Tên Phòng</th>
+                                <th>Ghế</th>
+                                <th>Tình trạng ghế</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr role="row" class="odd" style="width:fit-content;">
+                                        <td>@item.IdphongNavigation.TenPhong </td>
+                                        <td>@item.IdgheNavigation.TenGhe </td>
+                                        <td>
+                                            @if (item.TrangThaiGhe)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                                    <div>Bình thường</div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                    <div>Hỏng</div>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td class="text-right">
+                                            <a asp-area="Admin" asp-controller="AdminChiTietPhong" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-icon btn-hover btn-sm btn-rounded ">
+                                                <i class="anticon anticon-edit"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="AdminChiTietPhong" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                <i class="anticon anticon-delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <pager class="page-link" list="@Model" asp-asp-area="Admin" asp-controller="AdminChiTietPhong" asp-action="Index" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

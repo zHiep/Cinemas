@@ -1,0 +1,42 @@
+﻿@model Cinemas.Models.LichChieuPhim
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>LichChieuPhim</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdlichChieu" />
+            <div class="form-group">
+                <label asp-for="NgayChieu" class="control-label"></label>
+                <input asp-for="NgayChieu" class="form-control" />
+                <span asp-validation-for="NgayChieu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Idphim" class="control-label"></label>
+                <select asp-for="Idphim" class="form-control" asp-items="ViewBag.Idphim"></select>
+                <span asp-validation-for="Idphim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdgioChieu" class="control-label"></label>
+                <select asp-for="IdgioChieu" class="form-control" asp-items="ViewBag.IdgioChieu"></select>
+                <span asp-validation-for="IdgioChieu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,84 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Cinemas.Models.TheLoaiPhim>
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách thể loại" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" asp class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Quản lý phim</a>
+            <span class="breadcrumb-item active">Danh sách thể loại phim : page @CurrentPage</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                @* <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" id="idrole" name="idrole" style="min-width: 200px;" asp-items="ViewBag.RoleName">
+                            <option value="0" disabled selected>Chọn </option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" id="idstatus" name="idstatus" style="min-width: 200px;" asp-items="ViewBag.lsTrangThai">
+                            <option value="" disabled selected>Chọn </option>
+                        </select>
+                    </div>
+                </div> *@
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-controller="AdminTheLoaiPhim" asp-action="Create" class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm thể loại mới</span>
+                </a>
+            </div>
+        </div>
+        <div class="">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="col-sm-12">
+                    <table class="table table-hover e-commerce-table dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                        <thead>
+                            <tr role="row">
+                                <th>ID</th>
+                                <th>Tên thể loại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr role="row" class="odd" style="width:fit-content;">
+                                        <td>@item.IdtheLoai </td>
+                                        <td>@item.TenTheLoai </td>
+
+                                        <td class="text-right">
+                                            <a asp-area="Admin" asp-controller="AdminTheLoaiPhim" asp-action="Edit" asp-route-id="@item.IdtheLoai" class="btn btn-icon btn-hover btn-sm btn-rounded ">
+                                                <i class="anticon anticon-edit"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="AdminTheLoaiPhim" asp-action="Delete" asp-route-id="@item.IdtheLoai" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                <i class="anticon anticon-delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <pager class="page-link" list="@Model" asp-asp-area="Admin" asp-controller="AdminTheLoaiPhim" asp-action="Index" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿@model Cinemas.Models.Phim
+
+@{
+    ViewData["Title"] = "Thêm phim mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Create", "AdminPhim", FormMethod.Post, new { enctype = "multipart/form-data"  }))
+{
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+            </div>
+            <div class="m-b-15">
+                <input type="submit" value="Thêm" class="btn btn-primary" />
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Thông tin cơ bản</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold">Tên Phim</label>
+                            <input class="form-control" asp-for="TenPhim">
+                            <span asp-validation-for="TenPhim" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold">Giá vé</label>
+                            <input class="form-control" asp-for="Gia">
+                            <span asp-validation-for="Gia" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">Hình ảnh</label>
+                        <input type="file" name="fImg" class="form-control" asp-for="Img">
+                        <span asp-validation-for="Img" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label class="font-weight-semibold">Thể loại</label>
+                            <select asp-for="IdtheLoai" class="form-control" asp-items="ViewBag.TenTheLoai"></select>
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="font-weight-semibold">Tình trạng phim</label>
+                            <select asp-for="IdtinhTrangPhim" class="form-control" asp-items="ViewBag.TenTinhTrang"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold">Thời lượng</label>
+                            <input class="form-control" asp-for="ThoiLuong">
+                            <span asp-validation-for="ThoiLuong" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="NgayKhoiChieu" class="control-label">Ngày khởi chiếu</label>
+                            <input asp-for="NgayKhoiChieu" class="form-control" />
+                            <span asp-validation-for="NgayKhoiChieu" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold">Đạo điễn</label>
+                            <input type="text" class="form-control" asp-for="DaoDien">
+                            <span asp-validation-for="DaoDien" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold">Diễn viên</label>
+                            <input type="text" class="form-control" asp-for="DienVien">
+                            <span asp-validation-for="DaoDien" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">Mô tả</label>
+                        <input type="text" class="form-control" asp-for="MoTa">
+                        <span asp-validation-for="MoTa" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@* <form asp-action="Create" enctype="multipart/form-data">
+   
+</form> *@
+
+
+

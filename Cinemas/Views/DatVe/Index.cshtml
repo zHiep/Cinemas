@@ -1,0 +1,403 @@
+﻿@model Cinemas.Models.LichChieuPhim
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using Newtonsoft.Json;
+@inject IHttpContextAccessor Accessor;
+@{
+    ViewData["Title"] = "Đặt vé";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/assetslayout/styles/datve.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assetsLayout/styles/Trangchu.css" rel="stylesheet" asp-append-version="true" />
+    var thongtinkh = JsonConvert.DeserializeObject<KhachHang>(Accessor.HttpContext.Session.GetString("ThongTinKH"));
+    List<string> danhSachGhe = new List<string>();
+    foreach (var hoadon in ViewBag.GheDaDat)
+    {
+        System.Type type = hoadon.GetType();
+        string tenghe = Convert.ToString(type.GetProperty("TenGhe").GetValue(hoadon, null));
+        string[] mangGhe = tenghe.Split(',');
+        danhSachGhe.AddRange(mangGhe);
+    }
+    Console.WriteLine(danhSachGhe);
+}
+<!-- ĐẶT VÉ -->
+<div class="grid" style="background-color: #F8F8F8;">
+    <div class="book_ticket">
+        <div class="book_seat">
+            <h2 class="seat_nameMovie">@Model.IdphimNavigation.TenPhim</h2>
+            <div class="seat_status">
+                <p>
+                    <i class="fa-solid fa-couch"></i>
+                    <span>Ghế trống</span>
+                </p>
+                <p>
+                    <i class="fa-solid fa-couch"></i>
+                    <span>Ghế đang chọn</span>
+                </p>
+                <p>
+                    <i class="fa-solid fa-couch"></i>
+                    <span>Ghế đã đặt</span>
+                </p>
+            </div>
+            <img src="https://www.betacinemas.vn/Assets/global/img/booking/ic-screen.png" class="seat_option--img" alt="">
+            <div class="seat_option">
+                <!-- <p class="seat_screen">màn hình chiếu</p> -->
+                <div class="seat_option-container">
+                    <div class="seat_option--row">
+                        @foreach (var item in ViewBag.ChiTietPhong)
+                        {
+                            System.Type type = item.GetType();
+                            string tenghe = Convert.ToString(type.GetProperty("TenGhe").GetValue(item, null));
+                            string idghe = Convert.ToString(type.GetProperty("Idghe").GetValue(item, null));
+                            int tinhtrang = Convert.ToInt32(type.GetProperty("TrangThaiGhe").GetValue(item, null));
+                            var classidghe = "couch"+idghe;
+
+                            if(tinhtrang == 0)
+                            {
+                                <i class="fa-solid fa-couch" style="color:#f8f8f8;">
+                                    <span class="couch_number couch_position"></span>
+                                </i>
+                            }else
+                            {
+                                bool check = true;
+                                @foreach (var x in danhSachGhe)
+                                {
+                                    if(x == tenghe)
+                                    {
+                                        <i class="fa-solid fa-couch" style="color:#fd2802;">
+                                            <span class="couch_number couch_position" style="color:#ffffff;">@tenghe</span>
+                                        </i>
+                                        check = false;
+                                        break;
+                                    } 
+                                }
+                                if (check == true)
+                                {
+                                    <i class="fa-solid fa-couch @classidghe" data-key="@idghe" id="@idghe">
+                                    <span class="couch_number couch_position" data-key2="@idghe">@tenghe</span>
+                                    </i>
+                                }
+                            }
+                        }
+                        @* <i class="fa-solid fa-couch couch1" data-key="1" id="1">
+                        <span class="couch_number couch_position" data-key2="1">A1</span>
+                        </i> *@
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="seat_price">
+                <div class="seat_price--top">
+                    <div class="seat_normal">
+                        <i class="fa-solid fa-couch"></i>
+                        <span>Ghế đã chọn</span>
+                    </div>
+                    <div class="seat_money">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        <span>Giá tiền</span>
+                    </div>
+                    <p class="seat_total">Tổng tiền</p>
+
+                </div>
+
+                <div class="seat_price--bottom">
+                    <li class="seat_number"><span></span>Ghế</li>
+                    <li class="seat_cost"><span id="giave">@Model.IdphimNavigation.Gia</span>đ</li>
+                    <li class="seat_totalPrice"><span></span>đ</li>
+                </div>
+            </div>
+        </div>
+        @if (Accessor.HttpContext.Session.GetString("ThongTinKH") != null)
+        {
+            <div class="payment" style="display:none;">
+                <div class="payment_content">
+                    <div class="pay_content--regulations">
+                        <span>
+                            Theo quy định của cục điện ảnh, phim này không dành
+                            cho khán giả dưới 16  tuổi.
+                        </span>
+                    </div>
+                </div>
+                <div class="payment_form">
+                    <div class="payment_page">
+                        <img src="~/images/avatars/@thongtinkh.Avatar" alt="user">
+                        <div class="payment_page--title">
+                            <span>
+                                Thông tin thanh toán
+                            </span>
+                        </div>
+                    </div>
+                    <div class="payment_inf">
+                        <div>
+                            <div class="payment_inf--text">Họ tên:</div>
+                            <div class="">@thongtinkh.TenKh</div>
+                        </div>
+                        <div>
+                            <div class="payment_inf--text">Số điện thoại :</div>
+                            <div class="">@thongtinkh.Sdt</div>
+                        </div>
+                        <div>
+                            <div class="payment_inf--text">Email</div>
+                            <div class="">@thongtinkh.Email</div>
+                        </div>
+                    </div>
+                    <div class="payment_chair">
+                        <div class="payment_chair--text">
+                            Ghế Thường
+                        </div>
+                        <div class="payment_chair--qlt">
+                            <span id="soluongghe">2</span> x <span>@Model.IdphimNavigation.Gia</span>
+                        </div>
+                        <div class="payment_chair--money">
+                            <span>=</span><span style="margin-right: 4px;" id="thanhtien">80000</span><span style="margin-left: 4px;">VND</span>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 15px; color: #cecece;">
+                    <div class="payment_bill">
+                        <h3>Tổng tiền thanh toán</h3>
+                        <h3 class="payment_bill--money bank" style="width: 20%; color: red;"><span id="tongtien">80.000</span><span style="margin-left: 4px;">VND</span></h3>
+                    </div>
+                    <hr style="margin-top: 15px; color: #cecece;">
+                    <div class="payment_page">
+                        <img src="~/assetsLayout/images/ic-payment.png" alt="user" style="width: 56px;">
+                        <div class="payment_page--title">
+                            <span>
+                                Phương thức Thanh toán
+                            </span>
+                        </div>
+                    </div>
+                    <div class="payment_card">
+                        <div class="payment_card--option">
+                            Chọn thẻ thanh toán
+                        </div>
+                        <div class="payment_card--bank">
+                            @*<div class="col-4">
+                                <input id="card1" type="radio" name="phong" value="vietnam" checked="">
+                                <label for="card1">
+                                    <img class="card" src="/img/ic-card-vn.png" alt="">
+                                    <span>Thẻ nội địa</span>
+
+                                </label>
+                            </div>
+                            <div class="col-4">
+                                <input style="font-size: 50px;" id="card2" type="radio" name="phong" value="nuocngoai">
+                                <label for="card2">
+                                    <img class="card" src="/img/ic-card-gb.png" alt="">
+                                    <span>Thẻ quốc tế</span>
+                                </label>
+
+                            </div>
+                            <div class="col-4">
+                                <input id="card3" type="radio" name="phong" value="shopeepay">
+                                <label for="card3">
+                                    <img class="card" src="/img/shopeepay.png" alt="">
+                                    <span>Ví ShopeePay</span>
+                                </label>
+                            </div> *@
+                            <div class="col-4">
+                                <input id="card4" type="radio" >
+                                <label for="card4">
+                                    <img class="card" src="~/assetslayout/images/momo.png" alt="">
+                                    <span>Ví MoMo</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="warning">
+                            <div class="warning_text">
+                                <p>Vui lòng kiểm tra thông tin đầy đủ trước khi qua bước tiếp theo.</p>
+                                <span style="color: red;">*</span>
+                                Vé mua rồi không hoàn trả lại dưới mọi hình thức.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
+        <div class="ticket_infor">
+            <div class="sticky_infor">
+                <div class="ticket_contain">
+                    <img src="~/images/movies/@Model.IdphimNavigation.Img" alt="" style="width: 150px; height: 250px;" class="ticket_img">
+                    <div class="ticket_contain--text">
+                        <p class="ticket_contain--text">@Model.IdphimNavigation.TenPhim</p>
+                        <p class="ticket_contain--type">@Model.IdphimNavigation.IdtinhTrangPhimNavigation.TenTinhTrang</p>
+                    </div>
+                </div>
+
+                <div class="ticket_discription">
+                    <div class="ticket_nameTag">
+                        <p class="nameTag_category">
+                            <i class="fa-solid fa-tags"></i>
+                            Thể loại
+                        </p>
+                        <p class="nameTag_time">
+                            <i class="fa-regular fa-clock"></i>
+                            Thời lượng
+                        </p>
+                        <p class="nameTag_calendarDay">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Ngày chiếu
+                        </p>
+                        <p class="nameTag_timeShow">
+                            <i class="fa-regular fa-clock"></i>
+                            Giờ chiếu
+                        </p>
+                        <p class="nameTag_room">
+                            <i class="fa-solid fa-tv"></i>
+                            Phòng chiếu
+                        </p>
+                        <p class="nameTag_seat">
+                            <i class="fa-solid fa-cubes"></i>
+                            Ghế ngồi
+                        </p>
+                    </div>
+
+                    <div class="ticket_discription--text">
+                        <p class="ticket_text--category">@Model.IdphimNavigation.IdtheLoaiNavigation.TenTheLoai</p>
+                        <p class="ticket_text--time">@Model.IdphimNavigation.ThoiLuong phút</p>
+                        <!-- <p class="ticket_text--theater">a</p> -->
+                        <p class="ticket_text--calendarDay">@Model.NgayChieu.ToShortDateString()</p>
+                        <p class="ticket_text--timeShow">@Model.IdgioChieuNavigation.GioChieu1.ToString().Substring(0, 5)</p>
+                        <p class="ticket_text--room">@Model.IdphongNavigation.TenPhong</p>
+                        <p class="ticket_text--seat">
+
+                        </p>
+                    </div>
+                </div>
+
+                <button id="btndatve" class="ticket_buy--btn">Đặt vé</button>
+                <div id="groupbtn" class="btn" style="display:none">
+                    <button id="btnback" class="ticket_buy--btn">Quay lại</button>
+                    @{
+                        
+                        <button id="btnxacnhan" class="ticket_buy--btn js_buy--movie-2" data-idkh="@thongtinkh.Idkh" data-idlich="@Model.IdlichChieu">Xác nhận</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Nút trở lên đầu -->
+    <div class="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Modal thông báo số lượng ghế vượt giới hạn 8 -->
+    <div class="modal fade" id="staticBackdrop" >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="anticon anticon-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Mỗi khách hàng chỉ được đặt tối đa 8 ghế!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Xác nhận</button>
+                    <!-- <button type="button" class="btn btn-primary">Xác nhận</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop()) {
+                    $('.scrollTop').fadeIn();
+                } else {
+                    $('.scrollTop').fadeOut();
+                }
+            });
+            $('.scrollTop').click(function () {
+                $('html, body').animate({ scrollTop: 0 }, 200)
+            });
+
+            $('#btnxacnhan').click(function () {
+                var textList = $('.ticket_text--seat span').map(function () {
+                    return $(this).text();
+                }).get();
+                // Chuyển mảng thành chuỗi, cách nhau bởi dấu ,
+                var listtenghe = textList.join(',');
+
+                //
+                var tongTien = parseInt($('#thanhtien').text());
+                var soGhe = parseInt($('#soluongghe').text());
+                //
+                var idKH = $(this).data('idkh');
+                var idLich = $(this).data('idlich');
+                console.log(listtenghe);
+                console.log(tongTien);
+                console.log(soGhe);
+                console.log(idKH);
+                console.log(idLich);
+
+                $.ajax({
+                    url: '/HoaDon/ThanhToan',
+                    datatype: "json",
+                    type: 'Post',
+                    data: {
+                        idkh: idKH,
+                        idlichchieu: idLich,
+                        soghe: soGhe,
+                        tenghe: listtenghe,
+                        tongtien: tongTien
+                    },
+                    success: function (results) {
+                        if (results.success) {
+                            alert("Thanh toán thành công");
+                            window.location.href = results.urlTrangChu;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+
+                });
+            });
+        });
+
+
+
+    </script>
+    <script>
+        // Lấy các button theo ID
+        var btnDatVe = document.getElementById("btndatve");
+        var btnBack = document.getElementById("btnback");
+        var btnXacNhan = document.getElementById("btnxacnhan");
+        var Groupbtn = document.getElementById("groupbtn");
+        
+        var elmDatve = document.querySelector(".book_seat");
+        var elmThanhToan = document.querySelector(".payment");
+
+        // Gắn sự kiện click cho button Đặt vé
+        btnDatVe.addEventListener("click", function () {
+            elmDatve.setAttribute("style", "display: none;");
+            elmThanhToan.setAttribute("style", "display:block");
+            Groupbtn.setAttribute("style", "display:flex");
+            btnDatVe.setAttribute("style", "display:none");
+        });
+
+        // Gắn sự kiện click cho button Quay lại
+        btnBack.addEventListener("click", function () {
+            elmDatve.setAttribute("style", "display:flex");
+            elmThanhToan.setAttribute("style", "display: none;");
+            btnDatVe.setAttribute("style", "display: block;");
+            Groupbtn.setAttribute("style", "display: none;");
+
+        });
+
+        // Gắn sự kiện click cho button Tiếp tục
+        btnXacNhan.addEventListener("click", function () {
+            
+        });
+
+    </script>
+
+    <script src="~/assetslayout/js/datve.js"></script>
+}

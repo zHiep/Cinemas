@@ -1,0 +1,202 @@
+﻿@model IEnumerable<Cinemas.Models.Phim>
+
+@{
+    ViewData["Title"] = "Chi tiết phim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/assetslayout/styles/trangchitiet.css" rel="stylesheet" />
+}
+
+<div id="body">
+    <h3 class="heading">
+        Trang chủ >
+        <span id="">Kumanthong: Quỷ Linh Nhi</span>
+    </h3>
+    <div class="container">
+        <div class="detailed">
+            <div class="detailed_title">
+            </div>
+            <div class="detailed_content">
+                <img class="detailed_content--image" src="/img/Quỷ linh nhi.png" alt="Quỷ Linh nhi">
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Kumanthong: Quỷ Linh Nhi</h2>
+            <div class="content_detailed">
+                <p>
+                    Ging đưa con trai đi nghỉ mát ở căn nhà
+                    gỗ nằm giữa rừng cây. Tuy nhiên, cậu bé đã bị
+                    bắt cóc vào lúc nửa đêm. Sau bao nỗ lực tìm kiếm,
+                    manh mối duy nhất của vụ án đều hướng về người đàn
+                    ông tên In, làm nghề mai táng ở đền thờ. Quá tuyệt vọng,
+                    Ging đành nhờ cậy thầy đồng địa phương thực hiện nghi lễ
+                    hiến tế giữa rừng để tìm tung tích con trai. Những bí ẩn
+                    trong ngôi nhà ven rừng dần lộ ra, những cơn ác mộng máu
+                    me và hàng loạt cái chết đột ngột ập tới, liệu Ging có đang
+                    vướng vào một âm mưu tà ám. Và rằng con trai cô có thật sự
+                    đang mất tích?
+                </p>
+            </div>
+            <div class="content_introduce"></div>
+            <div class="content_introduce--title">
+                <div class="content_introduce--director">
+                    Đạo Diễn
+                </div>
+                <div class="content_introduce--text">
+                    Thitipan Raksasat
+                </div>
+            </div>
+            <div class="content_introduce--title">
+                <div class="content_introduce--director">
+                    Diễn Viên :
+                </div>
+                <div class="content_introduce--text">
+                    Thanachat Tullayachat, Savika Chaiyadej, Denkhun Ngamnet, Panisara Rikulsurakan
+                </div>
+            </div>
+            <div class="content_introduce--title">
+                <div class="content_introduce--director">
+                    Thể Loại:
+                </div>
+                <div class="content_introduce--text">
+                    Kinh dị
+                </div>
+            </div>
+            <div class="content_introduce--title">
+                <div class="content_introduce--director">
+                    Thời lượng:
+                </div>
+                <div class="content_introduce--text">
+                    87 phút
+                </div>
+            </div>
+            <div class="content_introduce--title">
+                <div class="content_introduce--director">
+                    Ngôn Ngữ:
+                </div>
+                <div class="content_introduce--text">
+                    Tiếng Thái
+                </div>
+            </div>
+            <div class="content_introduce--title">
+                <div class="content_introduce--director">
+                    Ngày khởi chiếu:
+                </div>
+                <div class="content_introduce--text">
+                    06/10/2023
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="showtimes">
+        <ul class="viewdate">
+            <li class="viewdate_calendar">
+                <a href="">
+                    <span class="viewdate_calendar--number">10</span>/10 - T3
+                </a>
+            </li>
+            <li class="viewdate_calendar">
+                <a href="">
+                    <span class="viewdate_calendar--number">11</span>/10 - T4
+                </a>
+            </li>
+        </ul>
+        <div class="showtimes_content">
+            <div class="showtimes_content--subtitle">
+                <span>20 Phụ đề</span>
+            </div>
+            <div style="display: flex; flex-direction: row; ">
+                <div class="showtimes_title">
+                    <div class="showtimes_title--time">
+                        <div class="btn_time js_buy--movie-2">08:30</div>
+                    </div>
+                    <div class="showtimes_title--empty">
+                        <div class="showtimes_title--empty-seat">
+                            165 ghế trống
+                        </div>
+                    </div>
+                </div>
+                <div class="showtimes_title">
+                    <div class="showtimes_title--time">
+                        <div class="btn_time js_buy--movie-2">15:00</div>
+                    </div>
+                    <div class="showtimes_title--empty">
+                        <div class="showtimes_title--empty-seat">
+                            130 ghế trống
+                        </div>
+                    </div>
+                </div>
+                <div class="showtimes_title">
+                    <div class="showtimes_title--time">
+                        <div class="btn_time js_buy--movie-2">21:00</div>
+                    </div>
+                    <div class="showtimes_title--empty">
+                        <div class="showtimes_title--empty-seat">
+                            144 ghế trống
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel_feelings--icon">
+        <a href="#!" class="icon"><i class="fa-solid fa-thumbs-up"></i>Like</a>
+        <a href="#!" class="icon"><i class="fa-solid fa-share"></i>share</a>
+    </div>
+</div>
+
+<div class="modal_two js_modal--2 js_modal--close-2">
+    <div class="modal-container--2 js_modal--container2">
+        <div class="click_close js_btn--close-2 ">
+            <i class="fa-solid fa-xmark "></i>
+        </div>
+        <div class="modal_header">
+            <h3 class="modal_text">
+                bạn đang đặt vé xem phim
+            </h3>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <div class="modal_content">
+                <h1>Kumanthong: Quỷ Linh Nhi</h1>
+            </div>
+            <div class="inf">
+                <div class="timeshows">
+                    <div class="timeshows_text">
+                        <div>
+                            <span>Rạp chiếu</span>
+                        </div>
+                        <div>
+                            <span>Ngày chiếu</span>
+                        </div>
+                        <div>
+                            <span>Giờ chiếu</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeshows" style="background-color: #f9f9f9; padding-top: 20px; font-weight: bold; font-size: 18px;">
+                    <div class="timeshows_text">
+                        <div>
+                            <span>Beta Thanh Hoá</span>
+                        </div>
+                        <div>
+                            <span>10/10/2023</span>
+                        </div>
+                        <div>
+                            <span>15:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal_footer">
+            <a href="./DatVe.html">
+                <span class="modal_footer--agree">Đồng ý</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/assetslayout/js/chitietphim.js"></script>
+}
